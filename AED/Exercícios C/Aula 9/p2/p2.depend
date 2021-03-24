@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1616416292 source:/home/gabriel/Codes/AnotherOneBitesTheDust/AlgoritmosEstruturasDeDados/p2/p2/main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
