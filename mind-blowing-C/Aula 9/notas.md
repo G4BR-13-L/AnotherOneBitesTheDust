@@ -18,7 +18,6 @@ consumiu e calcule a conta final.
  - Refrigerante................. R$ 10,00
  - Milkshake..................... R$ 30,00
 
-## Aula 10
 
 
 
