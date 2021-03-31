@@ -1,5 +1,21 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#ifdef _WIN64
+   void clear(){
+      system("cls");
+   }
+#elif _WIN32
+   void clear(){
+      system("cls");
+   }
+#else
+   void clear(){
+      printf("\033c");
+    }
+#endif
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -29,51 +45,86 @@ int Exg();
 int Exh();
 int Exi();
 int Exj();
+//------
+bool last = false;
 
+bool isEnter(){
+    char c;
+    scanf("%c", &c);
+    bool valid = c == '\n';
+    return valid && !last;
+}
+
+void waitEnter(){
+    while(!isEnter()){
+       last = !last;   
+    }
+}
 int main(){
+
+    clear();
     printf(BOLDBLUE"Autor: Gabriel Victor Couto Martins de Paula\n"RESET);
     printf(BOLDRED"As funções representam os exercícios.\n Para não ter que escrever muito mais código, as funções serão executadadas em sequencia. \n");
     printf(BOLDRED"No códico fonte vc vai identificar cada questão com o prefixo 'Ex' e a respectiva letra do exercício.\n\n"RESET);
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exa=======================\n"RESET);
     Exa();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    char c;
+    scanf("%c", &c);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exb=======================\n"RESET);
     Exb();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exc=======================\n"RESET);
     Exc();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exd=======================\n"RESET);
     Exd();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exe=======================\n"RESET);
     Exe();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exf=======================\n"RESET);
     Exf();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exg=======================\n"RESET);
     Exg();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exh=======================\n"RESET);
     Exh();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exi=======================\n"RESET);
     Exi();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exj=======================\n"RESET);
     Exj();
-    printf(BOLDWHITE"================================================\n\n"RESET);
+    clear();
+    printf(BOLDWHITE"================================================\n"RESET);
 }
 
 
+
 int Exa(){
+    printf("a. Leia um número e imprima seu sucessor.\n");
     int a;
     printf("Digite um numero: ");
     scanf("%d", &a);
     printf("\n %d \n \n", a+1);
+    //printf("Press [Enter] key to continue.\n");
+    //while(getchar()!='\n'); // option TWO to clean stdin
+    //getchar(); // wait for ENTER
 }
 int Exb(){
+    printf("b. Calcule a média aritmética de quatro números inteiros dados.\n");
     int a, b, c, d; 
     float media;
     printf("Digite um valor: ");
@@ -88,6 +139,7 @@ int Exb(){
     printf("\nA média aritmética é: %.2f\n", media);
 }
 int Exc(){
+    printf("c. Faça um algoritmo que receba 3 (três) notas e seus respectivos pesos, calcule e mostre a média ponderada dessas notas.\n");
     int n1, n2, n3, p1, p2, p3; 
     double media;
     printf("Digite os valores das notas:: \n");
@@ -108,6 +160,7 @@ int Exc(){
     printf("\nMédia ponderada: %.2f \n\n", media );
 }
 int Exd(){
+    printf("d. Leia uma temperatura dada na escala Celsius (C) e imprima o equivalente em Fahrenheit (F).\n");
     int c;
     float f, verification;
     printf("Digite o valor em °C: ");
@@ -124,6 +177,7 @@ int Exd(){
     }
 }
 int Exe(){
+    printf("e. Faça um algoritmo que receba o salário de um funcionário e o percentual de aumento, calcule e mostre o novo salário.\n");
     int salario, percentual;
     double aumento, novoSalario;
     printf("Digite o valor do salário: ");
@@ -136,6 +190,7 @@ int Exe(){
     printf("\nO salário com aumento: %5.2f\n", novoSalario);
 }
 int Exf(){
+    printf("f. Faça um algoritmo que peça ao usuário a base e a altura e calcule a área de um triangulo.\n");
     int base, altura;
     float area;
     printf("Digite a base do triangulo: ");
@@ -146,6 +201,7 @@ int Exf(){
     printf("\nÁrea: %.2f\n\n", area);
 }
 int Exg(){
+    printf("g. Pedro comprou um saco de Ração com peso em quilos. Pedro possui 2 (dois) gatos para os quais fornece a quantidade de ração em gramas. Faça um algoritmo que receba o peso do Saco de ração e a quantidade de ração fornecida para cada gato. Calcule e mostre quanto restará de ração no saco após 5 (cinco) dias. \n");
     int weight, portion;
     float rest;
     printf("Digite o peso do saco de ração(Kg): ");
@@ -162,6 +218,7 @@ int Exg(){
     }
 }
 int Exh(){
+    printf("h. Ler dois números inteiros para variáveis A e B. Trocar o valor de b com o de a, e imprimi-los.\n");
     int a, b;
     printf("Digite o primeiro numero: ");
     scanf("%d", &a);   
@@ -176,6 +233,7 @@ int Exh(){
     printf("\nAgora a vale %d e b vale %d\n\n", a, b);
 }
 int Exi(){
+    printf("i. Leia um número e imprima o resto da divisão por 7. Utilize o comando resto (a,b) na linguagem C (a %% b).\n");
     int num;
     double rest;
     printf("Digite um numero: ");
@@ -184,6 +242,7 @@ int Exi(){
     printf("O resto da divisão de %d por 7 é: %.2f\n\n", num, rest);
 }
 int Exj(){
+    printf("j. Calcular a soma dos termos de uma P.A. lendo os valores do primeiro termo, do segundo termo e do número de termos.\n");
     float a1, a2, an, n, r, Sn;
     printf("Digite o primeiro termo: ");
     scanf("%f", &a1);
