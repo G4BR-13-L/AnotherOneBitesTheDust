@@ -45,23 +45,14 @@ int Exg();
 int Exh();
 int Exi();
 int Exj();
-//------
-bool last = false;
 
-bool isEnter(){
-    char c;
-    scanf("%c", &c);
-    bool valid = c == '\n';
-    return valid && !last;
+void enterSandman(){
+    printf("Pressione [ ENTER ] para continuar.\n");
+    while(getchar()!='\n'); // option TWO to clean stdin
+    getchar(); // wait for ENTER
 }
 
-void waitEnter(){
-    while(!isEnter()){
-       last = !last;   
-    }
-}
 int main(){
-
     clear();
     printf(BOLDBLUE"Autor: Gabriel Victor Couto Martins de Paula\n"RESET);
     printf(BOLDRED"As funções representam os exercícios.\n Para não ter que escrever muito mais código, as funções serão executadadas em sequencia. \n");
@@ -69,16 +60,17 @@ int main(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exa=======================\n"RESET);
     Exa();
-    char c;
-    scanf("%c", &c);
+    enterSandman();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exb=======================\n"RESET);
     Exb();
+    enterSandman();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exc=======================\n"RESET);
     Exc();
+    enterSandman();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exd=======================\n"RESET);
@@ -119,9 +111,6 @@ int Exa(){
     printf("Digite um numero: ");
     scanf("%d", &a);
     printf("\n %d \n \n", a+1);
-    //printf("Press [Enter] key to continue.\n");
-    //while(getchar()!='\n'); // option TWO to clean stdin
-    //getchar(); // wait for ENTER
 }
 int Exb(){
     printf("b. Calcule a média aritmética de quatro números inteiros dados.\n");
