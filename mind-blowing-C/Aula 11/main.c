@@ -46,7 +46,7 @@ int Exh();
 int Exi();
 int Exj();
 
-void enterSandman(){
+void enterFunction(){
     printf("Pressione [ ENTER ] para continuar.\n");
     while(getchar()!='\n'); // option TWO to clean stdin
     getchar(); // wait for ENTER
@@ -60,45 +60,52 @@ int main(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exa=======================\n"RESET);
     Exa();
-    enterSandman();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exb=======================\n"RESET);
     Exb();
-    enterSandman();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exc=======================\n"RESET);
     Exc();
-    enterSandman();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exd=======================\n"RESET);
     Exd();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exe=======================\n"RESET);
     Exe();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exf=======================\n"RESET);
     Exf();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exg=======================\n"RESET);
     Exg();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exh=======================\n"RESET);
     Exh();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exi=======================\n"RESET);
     Exi();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exj=======================\n"RESET);
     Exj();
+    enterFunction();
     clear();
     printf(BOLDWHITE"================================================\n"RESET);
 }
