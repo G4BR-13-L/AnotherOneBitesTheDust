@@ -1,5 +1,17 @@
-# Exercício 4
+# Exercício 4 - Documentação
 ##### Autor: Gabriel Victor Couto Martins de Paula
+<html>
+
+<h3 style="color:red"> IMPORTANTE!</h3>
+</html>
+
+> O exércicio foi feito inteiramente com gcc
+> e compilado por linha de comando:
+> ```bash
+> gcc -o main main.c -lm
+> ```
+
+
 ### a. Leia um número e imprima seu sucessor.
 ```go
 inicio

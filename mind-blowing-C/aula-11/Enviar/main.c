@@ -1,3 +1,5 @@
+//Autor: Gabriel Victor Couto Martins de Paula
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -54,9 +56,9 @@ void enterFunction(){
 
 int main(){
     clear();
-    printf(BOLDBLUE"Autor: Gabriel Victor Couto Martins de Paula\n"RESET);
-    printf(BOLDRED"As funções representam os exercícios.\n Para não ter que escrever muito mais código, as funções serão executadadas em sequencia. \n");
-    printf(BOLDRED"No códico fonte vc vai identificar cada questão com o prefixo 'Ex' e a respectiva letra do exercício.\n\n"RESET);
+    printf(BOLDBLUE"Autor: Gabriel Victor Couto Martins de Paula\n\n"RESET);
+    printf(BOLDRED"As funções representam os exercícios.\nPara não ter que escrever muito mais código, as funções serão executadadas em sequencia.\n");
+    printf(BOLDRED"No código fonte vc vai identificar cada questão com o prefixo 'Ex' e a respectiva letra do exercício.\n\n"RESET);
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Exa=======================\n"RESET);
     Exa();
