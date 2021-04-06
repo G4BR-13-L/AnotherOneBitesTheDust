@@ -18,8 +18,24 @@
 | **Hobby**         | Skate e esportes no geral                                                | **Objetivos chave**                                                                                                             |
 | **Personalidade** | Bem organizado nos estudos, eclético, aberto a novas ideias              | Organização, Praticidade, Sync, Versatilidade e interação.                                                                      |
 | **sonhos**        | Ter o próprio estúdio de animação, trabalhar em um estúdio de animasção. | **Como devemos tratá-la**                                                                                                       |
-|                   |                                                                          | Oferecer o melhor serviço possível, empatia,                                                                                    |
+|                   |                                                                          | Oferecer o melhor serviço possível, empatia,                                              
+
+                                      |
+
+### **Nome:** Lucas
+
+**Trabalho:** Quadrinista, Animador e ilustrador
 
 
+**Hobby:** Skate e esportes no geral
 
+**Personalidade:** Bem organizado nos estudos, eclético, aberto a novas ideias
+
+**Sonhos:** Ter o próprio estúdio de animação, trabalhar em um estúdio de animasção.
+
+**Objetos e Lugares:** Mesa digitalizadora, Computador, Photoshop, CliPStúdio Paint, Trello, Google Suite // Pinterest para ideias, youtube, instagram
+
+**Objetivos chave:** Organização, Praticidade, Sync, Versatilidade e interação.     
+
+**Como devemos tratá-la:** 	Oferecer o melhor serviço possível, empatia,
 
