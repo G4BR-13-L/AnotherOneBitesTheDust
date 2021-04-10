@@ -289,10 +289,76 @@ int ex08(){
 int ex09(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex09=======================\n"RESET);
-    printf("Números palíndromos são aqueles que escritos da direita para esquerda ou da esquerda para direita tem o mesmo valor. Exemplo:929, 44, 97379. Fazer um algoritmo que dado um numero de 5 dígitos; calcule e escreva se este e ou não palíndromo.");
-    
+    printf("Números palíndromos são aqueles que escritos da direita para esquerda ou da esquerda para direita tem o mesmo valor. Exemplo:929, 44, 97379. Fazer um algoritmo que dado um numero de 5 dígitos; calcule e escreva se este e ou não palíndromo.\n\n");
+    char num[5];
+    int numSize = 0;  
+    while(numSize != 5){
+        printf("Digite um número de 5 dígitos: ");
+        scanf("%s", num);
+        fflush(stdin);
+        numSize = strlen(num); 
+    }
+    if( num[0] == num[4] && num[1] == num[3] ){
+        printf("\nO numero é um palíndromo.\n");
+    }else{
+        printf("\nO número não é um palíndromo.\n");
+    }
 }
 int ex10(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex10=======================\n"RESET);
+    /**
+     * Desenvolver um algoritmo para calcular a conta de água para a SANEAGO. O custo da água varia dependendo do tipo do consumidor -residencial, comercial ou industrial. A regra para calcular a conta é:
+     * 
+     * •Residencial: R$ 75,00 de taxa mais R$ 3,50 por m3gastos;
+     * •Comercial: R$ 500,00 para os primeiros 80 m3gastos mais R$ 5,50 por m3gastos acima dos 80 m3;
+     * •Industrial: R$ 800,00 para os primeiros 100 m3gastos mais R$ 8,00 por m3gastos acima dos 100 m3;
+     * 
+     * O algoritmo devera ler a conta do cliente,  seu tipo [residencial, comercial e industrial] e o seu consumo de água em metros cubos. Como resultado imprimir o valor a ser pago pelo mesmo.
+    */
+    printf("Desenvolver um algoritmo para calcular a conta de água para a SANEAGO. O custo da água varia dependendo do tipo do consumidor -residencial, comercial ou industrial. A regra para calcular a conta é:\n\n•Residencial: R$ 75,00 de taxa mais R$ 3,50 por m3gastos;\n•Comercial: R$ 500,00 para os primeiros 80 m3gastos mais R$ 5,50 por m3gastos acima dos 80 m3;\n•Industrial: R$ 800,00 para os primeiros 100 m3gastos mas R$ 8,00 por m3gastos acima dos 100 m3;\n\n O algoritmo devera ler a conta do cliente,  seu tipo [residencial, comercial e industrial] e o seu consumo de água em metros cubos. Como resultado imprimir o valor a ser pago pelo mesmo.");
+    int estabelecimento;
+    float agua, conta;
+    while( estabelecimento < 1 || estabelecimento > 3 ){
+        printf("Qual o tipo de estabelecimento?\n\n");
+        printf("[1] - Residencial\n[2] - Comercial\n[3] - Industrial\n\nResposta:");
+        scanf("%d", &estabelecimento);
+        printf("\n");
+        fflush(stdin);
+    }
+    printf("\nDigite a quantidade de água consumida em m³: ");
+    scanf("%f", &agua);
+    fflush(stdin);
+    switch (estabelecimento){
+        case 1:
+            conta = 75 + 3.5 * agua;
+            printf("\nA conta da residência fica em: %.2f\n\n", conta);
+            estabelecimento = 0;
+        break;
+        case 2:
+            if( agua >= 80 ){
+                conta = 500 + ( (agua - 80) * 5.5 );
+                printf("\nA conta do comercio fica em: %.2f\n\n", conta);
+                estabelecimento = 0;
+            }else{
+                conta = 0;
+                printf("\nA conta do comercio vale 0 porque não forma consumidos os 80m³ necessários para a cobrança\n\n");
+                estabelecimento = 0;
+            }
+        break;
+        case 3:
+            if( agua >= 100 ){
+                conta = 800 + ( (agua - 100) * 8 );
+                printf("\nA conta da industria fica em: %.2f\n\n", conta);
+                estabelecimento = 0;
+            }else{
+                conta = 0;
+                printf("\nA conta do industria vale 0 porque não forma consumidos os 100m³ necessários para a cobrança\n\n");
+                estabelecimento = 0;
+            }
+        break;
+        default:
+            printf("------------ERRO-----------\n\n");
+        break;
+    }
 }

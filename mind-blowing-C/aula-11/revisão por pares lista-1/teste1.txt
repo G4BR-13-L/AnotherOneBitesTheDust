@@ -1,0 +1,83 @@
+a. leia um n�mero e imprima seu sucessor
+-------------------------------------------
+Digite um n�mero: 8
+Seu sucessor � 9
+sh: 1: cls: not found
+
+b. calcule a m�dia aritm�tica de quatro n�meros inteiros dados
+--------------------------------------------------------------
+Digite quatro n�meros inteiros
+primeiro n�mero: 3
+Segundo n�mero: 4
+Terceiro n�mero: 5
+Quarto n�mero: 6
+A m�dia desses quatro n�meros � 4.50
+sh: 1: cls: not found
+
+c. fa�a um algoritmo que receba 3 notas e seus respectivos pesos, calcule e mostre a m�dia ponderada dessas notas
+-----------------------------------------------------------------------------------------------------------------
+Digite tr�s notas e seus respectivos pesos
+Primeira nota: 3
+peso: 4
+segunda nota: 5
+peso: 1
+terceira nota: 2
+peso: 3
+A m�dia ponderada das notas � 2.88
+sh: 1: cls: not found
+
+d. leia uma temperatura dada na escala celsius e imprima o equivalente em fahrenheit
+------------------------------------------------------------------------------------
+Digite a temperatura em graus celcius: 32
+Essa temperatura em fahrenheit � 89.60
+sh: 1: cls: not found
+
+e. fa�a um algoritmo que receba o sal�rio de um funcion�rio e o percentual de aumento, calcule e mostre o novo sal�rio
+----------------------------------------------------------------------------------------------------------------------
+Digite o sal�rio do funcion�rio: 2000
+Digite o percentual de aumento do seu novo sal�rio: 40
+O novo sal�rio do funcion�rio ser� R$2800.00
+sh: 1: cls: not found
+
+f. fa�a um algoritmo que pe�a ao usu�rio a base e a altura e calcule a �rea de um tri�ngulo
+-------------------------------------------------------------------------------------------
+Digite a base do tri�ngulo: 10
+Digite a altura do tri�ngulo: 12
+A �rea do tri�ngulo � 60.00
+sh: 1: cls: not found
+
+g. Pedro comprou um saco de ra��o com peso em quilos.
+Pedro possui dois gatos para os quais fornece a quantidade de ra��o em gramas.
+Fa�a um algoritmo que receba o peso do saco de ra��o e a quantidade de ra��o fornecida para cada gato.
+Calcule e mostre quanto restar� de ra��o no saco ap�s cinco dias.
+------------------------------------------------------------------------------------------------------
+Digite a quantidade de ra��o do saco em quilogramas: 5
+Digite em gramas a quantidade de ra��o fornecida para cada gato em um dia
+primeiro gato: 300
+segundo gato: 400
+Em cinco dias, a quantidade restante de ra��o no saco ser� 1500.00g
+sh: 1: cls: not found
+
+h. Leia dois n�meros inteiros para vari�veis a e b. Troque o valor de b com o de a e os imprima
+-----------------------------------------------------------------------------------------------
+Digite um valor inteiro para a: 1
+Digite um valor inteiro para b: 2
+a=2
+b=1
+sh: 1: cls: not found
+
+i. Leia um n�mero e imprima o resto da divis�o por 7
+-------------------------------------------------
+Digite um n�mero inteiro: 7
+O resto da divis�o � 0
+sh: 1: cls: not found
+
+j. calcule a soma dos termos de uma P.A lendo os valores
+do primeiro termo, do segundo termo e do n�mero de termos
+---------------------------------------------------------
+Digite o primeiro termo: 4
+Digite o segundo termo: 8
+Digite o n�mero de termos da P.A: 9
+A soma dos termos dessa P.A. � 180.00
+sh: 1: cls: not found
+Aperte ENTER para continuar...
