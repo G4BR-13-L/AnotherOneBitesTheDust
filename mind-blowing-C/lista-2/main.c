@@ -36,8 +36,10 @@ int main(){
     int exec = 1, exercicio;
     while(exec == 1){
         clear();
+        printf(BOLDWHITE"============Autor: Gabriel Victor Couto Martins de Paula===========\n"RESET);
         printf(BOLDWHITE"======================Selecione um exercício=======================\n"RESET);
         printf(BOLDWHITE"   [ 1 ] [ 2 ] [ 3 ] [ 14 ] [ 5 ] [ 6 ] [ 7 ] [ 8 ] [ 9 ] [ 10 ]\n" RESET);
+        printf("                                  ");
         scanf("%d", &exercicio);
         switch (exercicio){
             case 1:

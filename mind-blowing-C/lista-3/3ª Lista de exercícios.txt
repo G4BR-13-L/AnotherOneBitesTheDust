@@ -1,0 +1,126 @@
+3ª Lista de Exercícios
+
+Roberto Rocha
+
+Para cada um dos problemas a seguir faça um algoritmo utilizando o
+Portugol.
+1 - Faça um algoritmo que leia um conjunto de números (X) e imprima a quantidade de números pares
+(QPares) e a quantidade de números impares (QImpares) lidos. Admita que o valor 9999 é utilizado como
+sentinela (FLAG) para fim de leitura. Ex.: 1,2,3,4,5,9999 => Pares=2 Impares=3
+2 - Faça um programa que leia um conjunto indeterminado de números inteiros positivos e imprima o maior, o
+menor e a média aritmética desse conjunto de dados. (Flag -1).
+Execute este programa para os seguintes valores
+1.1,2,3,-1
+2.3,2,1,-1
+3.1,3,2,-1
+3 - Escrever um algoritmo em Portugol, para calcular e imprimir o fatorial de um número lido do teclado.
+Ex. Fatorial de 5! = 5x4x3x2x1=120
+
+Para cada um dos problemas a seguir faça um algoritmo utilizando o
+Portugol.
+4 – Calcule o valor da seguinte série lido a quantidade de termos:
+S = 1−
+
+1
+1
+1
+1
++
+−
++
+− .....
+3
+3
+3
+3
+3
+5
+7
+9
+
+5 - A série de fibonacci é formada pela seqüência:
+1, 1, 2, 3, 5, 8, 13, 21, 34, ...
+Escreva um algoritmo que peça um número N maior que 2. Gere e imprima a série até este n-ésimo
+termo.
+6 - Fazer um algoritmo para calcular o valor de s, dado por, sendo o valor de N deverá se lido do teclado
+1
+2
+3
+4
+N
+S =+ −
++
+−
++ ....
+N N −1 n − 2 n − 3
+1
+7 - Números palíndromos são aqueles que escritos da direita para esquerda ou da esquerda para direita
+tem o mesmo valor. Exemplo:929, 44, 97379. Fazer um algoritmo que imprima todos os números
+palíndromos de 10000 a 99999.
+8 - O numero 3025 possui a seguinte característica:
+30 + 25 = 55
+55^2 = 3025
+Quantos e quais são os números de 4 dígitos possuem essa característica?
+
+Função Aleatório
+Para gerar números aleatórios, também denominados randômicos, em linguagem C utiliza-se a função rand contida em stdlib.h.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+int main()
+{
+/* programa para gerar números aleatórios */
+int n;
+printf("Gerando 10 valores aleatorios:\n");
+for (n = 0; n < 10; n++)
+{
+/* gerando valores aleatórios entre 1 e 100 */
+printf("%d ", rand() % 100 +1);
+}
+getch();
+return 0;
+}
+
+Verifique que sempre serão gerados os
+mesmos valores!!
+
+Função Aleatório
+A função srand - Para que os valores gerados não se repitam utiliza-se a função srand .
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <time.h> //necessário p/ função time()
+int main()
+{
+/* srand(time(NULL)) inicializa o gerador de números aleatórios com o valor da função time(NULL). time (NULL) é o total de segundos passados
+desde 1 de janeiro de 1970 até a data atual. Cada execução faz com que o valor de referencia seja diferente.
+programa para gerar números aleatórios */
+setlocale(LC_ALL,"portugues");
+int n;
+printf("Gerando 10 valores aleatórios:\n");
+//srand(0);
+srand(time(NULL));
+
+for (n = 0; n < 10; n ++)
+{
+/* gerando valores aleatórios entre 1 e 100 */
+printf("%d ", rand() % 100 +1);
+}
+getch();
+return 0;
+
+Exercícios
+9. Faça um programa para um jogo de cara ou coroa. Neste caso, o jogador escolhe cara ou coroa (0 –
+cara e 1 – para coroa) mostre ao final de 10 tentativas, quantas foram certas e quantas erradas.
+(utilize o comando - para que o computador escolha o resultado).
+10. Faça um programa para adivinhar um número escolhido pelo usuário, entre 1 e 1023. Indique ao
+final quantas tentativas foram necessárias. O programa deverá localizar o número escolhido pelo
+usuário em no máximo 10 tentativas!
+Utilize a seguinte proposta. Pegue o valor intermediário e pergunte ao usuário se o número é
+igual(=), maior(>) ou menor(<) que o que foi escolhido. Se for (=) implica que acertou! Se for maior
+escolha agora o número intermediário entre o que foi perguntado e o último, caso contrário escolha o
+intermediário entre o primeiro e o que foi perguntado, seguindo assim até acertar!
+Verifique que você conseguirá acertar qualquer número em no máximo 10 tentativas!!!
+
+
