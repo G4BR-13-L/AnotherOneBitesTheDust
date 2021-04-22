@@ -87,69 +87,24 @@ int ex01(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex01=======================\n"RESET);
     printf("Faça um algoritmo que leia um conjunto de números [X] e imprima a quantidade de números pares [QPares] e a quantidade de números impares [QImpares] lidos. Admita que o valor 9999 é utilizado como sentinela (FLAG) para fim de leitura. Ex.: 1,2,3,4,5,9999 => Pares=2 Impares=3\n\n");
-    int x, par = 0, impar = 0, zeros = 0;
-    printf("PARA INTERROMPER A LEITURA DIGITE 9999;\nDigite os valores: ");
-    do{
-        printf(" - ");
-        scanf("%d",&x);
-        if( x % 2 == 0){
-            par++;
-        }else if( x % 2 == 1){
-            impar++;
-        }else{
-            zeros++;
-        }
-    }while(x != 9999);
-    printf("PARES: %d\nIMPARES: %d\nZEROS: %d", par, impar, zeros);
+    
     
 }
 int ex02(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex02=======================\n"RESET);
     printf("Faça um programa que leia um conjunto indeterminado de números inteiros positivos e imprima o maior, o menor e a média aritmética desse conjunto de dados. [Flag -1].\nExecute este programa para os seguintes valores:\n\n1. 1,2,3,-1\n2. 3,2,1,-1\n3. 1,3,2,-1\n\n");
-    int num = 0, totalNumbers = 0, maior = 0, menor = 1, soma = 0, zeros = 0;
-    float media = 0;
+
 
     printf("PARA INTERROMPER A LEITURA DIGITE -1;\nDigite os valores: ");
-    while( num != -1 ){
-        printf("- ");
-        scanf("%i", &num);
-        if( num == -1 ){
-            num = -1;
-        }else{
-            soma = soma + num;
-            totalNumbers++;
-            if( num > maior ){
-                maior = num;
-            }else if( num < menor && num != -1 ){
-                menor = num;
-            }else if( num == 0 ){
-                zeros++;
-            }
-        }
-        
-    }
-    media = soma / totalNumbers;
 
-    printf("Números totais: %d\nMaior: %d\nMenor: %d\nSoma: %d\nZeros: %d\nMédia: %.2f",totalNumbers, maior,menor, soma, zeros, media);
     
 }
 int ex03(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex03=======================\n"RESET);
     printf("Escrever um algoritmo em Portugol, para calcular e imprimir o fatorial de um número lido do teclado.\nEx. Fatorial de 5! = 5x4x3x2x1=120\n");
-    int num = 0;
-    float fatorial;
-    printf("Digite um número para que eu imprima seu fatorial: ");
-    scanf("%i", &num);
-    fatorial = num;
-    for(int i = num - 1 ; i > 0 ; i--){
-        printf("\n%.0f x %d = ", fatorial, num - 1);
-        fatorial = fatorial * ( num - 1 );
-        printf("%.0f", fatorial);
-        num--;
-    }
-    printf("\nFatorial final: %.0f", fatorial);
+
 
     
 }
@@ -157,31 +112,14 @@ int ex04(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex04=======================\n"RESET);
     printf("Calcule o valor da seguinte série lido a quantidade de termos:\n\nS = 1 - (1/3³) + (1/5³) - (1/3³) + (1/5³)...\n\n");
-    int quantidade = 0, base = 3, cenario = 0;
-    float S = 0;
-    printf("Digite a quantidade de termos: ");
-    scanf("%d", &quantidade);
-    S = 1 - ( 1 / pow(base,3));
-    //printf("\n=====> %.5f\n", S);
-    printf("S = 1 - ( 1 / %d³) ", base);
-    for(int i = quantidade - 1 ; i > 0 ; i--){
-        S = S + ( 1 / pow( base+=2 , 3 ) );
-        //printf("\n=====> %.5f\n", S);
-        printf(" + ( 1 / %d³ )", base);
-        S = S - ( 1 / pow( base+=2 , 3 ) );
-        //printf("\n=====> %.5f\n", S);
-        printf(" - ( 1 / %d³ )", base);
-    }
-    printf("\n\nResultado final de S: %.2f", S);
 
-    
 }
 
 int ex05(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex05=======================\n"RESET);
     printf(" A série de fibonacci é formada pela seqüência:\n- 1, 2, 3, 5, 8, 13, 21, 34, ...\nEscreva um algoritmo que peça um número N maior que 2. Gere e imprima a série até este n-ésimotermo.\n");
-    
+   
 }
 int ex06(){
     printf(BOLDWHITE"================================================\n"RESET);
