@@ -44,26 +44,36 @@ void ex02();
 void ex03();
 void ex01();
 void ex04();
-void ex06();
-void ex07();
 void ex05();
-void ex08();
-void ex09();
+void ex06(int minimo, int maximo);
+void ex07(int minimo, int maximo);
+void ex08(int min, int max);
+void ex09(float min, float max);
 void ex10();
-
-void executeAll();
 int main(){
     /*=================================================================================*/
     /*=================================================================================
-    VARIAVEIS GLOBAIS DO EXERCÍCIO 6*/
-    int minimo = 42;
+    VARIAVEIS GLOBAIS DO EXERCÍCIO 6, 7,8*/
     
-    int maximo = 2021;
+    int minimo = 1, maximo = 0;
+    printf(BOLDCYAN"\n\nANTES DE TUDO INFORME OS VALORES GLOBAIS DO PROGRAMA, ELE SÃO REQUISITOS DOS EXERCÍCIOS 6,7,8.\nDIGITE UM VALOR MÍNIMO E UM VALOR MÁXIMO INTEIROS PARA OS EXÉCÍCIOS 6, 7 e 8:"RESET);
+    do{
+        printf("\nDigite um valor mínimo para o intervalo: ");
+        scanf("%d", &minimo);
+        printf("\nDigite um valor máximo para o intervalo: ");
+        scanf("%d", &maximo);
+    }while(maximo <= minimo);
+    printf(BOLDCYAN"\n\nAGORA DIGITE VALORES QUE ESTEJAM ENTRE 0 E 1 PARA QUE SIRVÃO AO EXERCÍCIO 9: \n"RESET);
     
+    float minimo9 = 0.1, maximo9 = 0;
+    do{
+        printf("\nDigite um valor mínimo entre 0 e 1 para o intervalo: ");
+        scanf("%f", &minimo9);
+        printf("\nDigite um valor máximo entre 0 e 1 e maior que o valor mínimo: ");
+        scanf("%f", &maximo9);
+    }while( ( maximo9 <= minimo9 ) || (maximo9 < 0 || maximo9 > 1) || (minimo9 < 0 || minimo9 > 1));
     /*=================================================================================*/
     /*=================================================================================*/
-
-    //executeAll();
     int exec = 1, exercicio;
     while(exec == 1){
         clear();
@@ -89,16 +99,16 @@ int main(){
                 ex05();
             break;
             case 6:
-                ex06();
+                ex06(minimo,maximo);
             break;
             case 7:
-                ex07();
+                ex07(minimo, maximo);
             break;
-            case 8:
-                ex08();
+            case 8:   
+                ex08(minimo, maximo);
             break;
             case 9:
-                ex09();
+                ex09(minimo9, maximo9);
             break;
             case 10:
                 ex10();
@@ -114,19 +124,6 @@ int main(){
     
 }
 
-
-void executeAll(){
-    ex01();
-    ex02();
-    ex03();
-    ex04();
-    ex05();
-    ex06();
-    ex07();
-    ex08();
-    ex09();
-    ex10();
-}
 void ex01(){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex01=======================\n"RESET);
@@ -338,18 +335,18 @@ void ex05(){
 
 }
 
-void ex06(){
+void ex06(int minimo, int maximo){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex06=======================\n"RESET);
     printf("Crie um procedimento para:\n-ler dois valores inteiros positivos, limites para definirem um intervalo;( esses valores deverão ser globais\n-ler uma quantidade de valores inteiros a serem testados –FLAG -1; um por vez;\n-contar e mostrar dentre esses valores lidos os que forem múltiplos de 2 e de 3, ao mesmo tempo, e pertençam ao intervalo.\n\n");
     //A variaveis globais ja foram declaradas no inicio do método principal
     
-    int numeros[100], numControle = 0, fimDaLista = 0;
+    int numeros[100], numControle = 0, fimDaLista = 0, valido = 0;
 
-    typedef struct numerosValidos{
+    typedef struct Analise{
         int num;
-        
-    }
+        int valido;
+    } Analise;
     for(int i = 0; i < 100 ; i++){
         printf("Digite um numero: ");
         scanf("%d", &numControle);
@@ -361,40 +358,160 @@ void ex06(){
             i = 100;
         }
     }
-    
+    Analise analise[fimDaLista - 1];
+    for(int j = 0 ; j < fimDaLista ; j++){
+        if( ( numeros[j] % 2 == 0 && numeros[j] % 3 == 0 ) && numeros[j] >= minimo && numeros[j] <= maximo ){
+            analise[j].num = numeros[j];
+            analise[j].valido = 1;
+            valido++;
+        }else{
+            analise[j].num = numeros[j];
+            analise[j].valido = 0;
+        }
+    };
 
-    
-    for(int j = 0 ; j < 50 ; j++){
-        printf("%d, ", numeros[j]);
+    printf("\nClassificação      Número\n");
+    for(int k = 0 ; k < fimDaLista ; k++){
+        if(analise[k].valido == 1){
+            printf(BOLDGREEN"VÁLIDO   -        "RESET);
+            printf(" %d\n", analise[k].num);
+        }else{
+            printf(BOLDRED"INVÁLIDO -        "RESET);
+            printf(" %d\n", analise[k].num);
+        }
     }
-    /*int a[17];
-    size_t n = sizeof(a)/sizeof(a[0]);*/
-
-
-
-
+    printf("Total de números existentes entre %d e %d, e que são multiplos de 2 e de 3 simultaneamente: %d", minimo, maximo, valido);
 
 }
 
 
-void ex07(){
+void ex07(int minimo, int maximo){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex07=======================\n"RESET);
     printf("Crie um procedimento para:\n-ler dois valores inteiros positivos, limites para definirem um intervalo ( esses valores deverão ser globais)\n-ler uma quantidade de valores inteiros a serem testados;-Flag-1, um por vez;\n-contar e mostrar dentre esses valores lidos os que forem múltiplos de 3, que não forem também múltiplos de 5, e pertençam ao intervalo.\n\n");
-   
+    
+    int numeros[100], numControle = 0, fimDaLista = 0, valido = 0;
+
+    typedef struct Analise{
+        int num;
+        int valido;
+    } Analise;
+    for(int i = 0; i < 100 ; i++){
+        printf("Digite um numero: ");
+        scanf("%d", &numControle);
+        if (numControle != -1){
+            numeros[i] = numControle;
+        }else{
+            i++;
+            fimDaLista = i;
+            i = 100;
+        }
+    }
+    Analise analise[fimDaLista - 1];
+    for(int j = 0 ; j < fimDaLista ; j++){
+        if( ( numeros[j] % 3 == 0 && numeros[j] % 5 != 0 ) && numeros[j] >= minimo && numeros[j] <= maximo ){
+            analise[j].num = numeros[j];
+            analise[j].valido = 1;
+            valido++;
+        }else{
+            analise[j].num = numeros[j];
+            analise[j].valido = 0;
+        }
+    };
+
+    printf("\nClassificação      Número\n");
+    for(int k = 0 ; k < fimDaLista ; k++){
+        if(analise[k].valido == 1){
+            printf(BOLDGREEN"VÁLIDO   -        "RESET);
+            printf(" %d\n", analise[k].num);
+        }else{
+            printf(BOLDRED"INVÁLIDO -        "RESET);
+            printf(" %d\n", analise[k].num);
+        }
+    }
+    printf("Total de números existentes entre %d e %d, e que são multiplos de 3 mas não de 5: %d", minimo, maximo, valido);
 }
 
-void ex08(){
+void ex08(int min, int max){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex08=======================\n"RESET);
     printf("Crie um procedimento para: \n- ler dois valores reais, o primeiro menor que o segundo, caso não seja emita uma mensagem  de erro e peça novamente, para definirem um intervalo; ( esses valores deverão ser globais) \n- Crie outro procedimento para: \n  - ler a quantidade de valores reais a serem testados, e ler outros tantos valores quantos os indicados por essa quantidade; \n  - contar e mostrar todos os valores lidos, pertencentes ao do intervalo, cujas partes inteiras forem números ímpares. \nDICA: Usar conformação de tipo (type casting) para isolar a parte inteira (int), antes de testar se é impar\n\n");
+    int quantidade = 0, quantidadeImpares = 0;
+    typedef struct Valores{
+        float num;
+        int numCast;
+        int valido;
+    } Valores;
+
+    printf("Digite a quantidade de valores a serem testados: ");
+    scanf("%d", &quantidade);
+    Valores valores[quantidade];
+
+    for( int i = 0 ; i < quantidade ; i++){
+        printf("Digite um valor real: ");
+        scanf("%f", &valores[i].num);
+        valores[i].numCast = valores[i].num;
+    }
+    
+    for(int j = 0 ; j < quantidade ; j++){
+        if( valores[j].numCast % 2 == 0){
+            valores[j].numCast = 0;
+            valores[j].valido = 0;
+        }else{
+            if( valores[j].numCast >= min && valores[j].numCast <= max){
+                valores[j].valido = 1;
+            }else{
+                valores[j].valido = 0;
+            }
+        }
+    }
+    printf("Numeros Impares dentro do intervalo: [ ");
+    for(int k = 0 ; k < quantidade ; k++){
+        if(valores[k].valido == 1){
+            printf("%d, ", valores[k].numCast);
+            quantidadeImpares++;
+        }
+    }
+    printf("]");
+    printf("Quantidade de números impares: %d", quantidadeImpares);
+
     
 }
 
-void ex09(){
+void ex09(float min, float max){
     printf(BOLDWHITE"================================================\n"RESET);
     printf(BOLDWHITE"======================Ex09=======================\n"RESET);
     printf("Crie um procedimento para: \n- ler dois valores reais, maiores que 0 e menores que 1, caso não seja emita uma mensagem de erro e peça novamente, para definirem um intervalo de precisão; ; ( esses valores deverão ser globais) Crie um procedimento para: \n - ler uma quantidade de valores reais a serem testados, e ler outros tantos valores quantos os indicados por essa quantidade; contar e mostrar todos os valores lidos que tenham suas partes fracionárias maiores que o intervalo de precisão. \nDICA: Usar conformação de tipo (type casting) para isolar a parte inteira (int), e obter a parte fracionária mediante a subtração da parte inteira, antes de testar.\n\n");
+
+    int quantidade = 0;
+    typedef struct Valores{
+        float num;
+        int numCastInt;
+        float fracionaria;
+        int valido;
+    } Valores;
+
+    printf("Digite a quantidade de valores a serem testados: ");
+    scanf("%d", &quantidade);
+    Valores valores[quantidade];
+
+    for( int i = 0 ; i < quantidade ; i++){
+        printf("\nDigite um valor real: ");
+        scanf("%f", &valores[i].num);
+        valores[i].numCastInt = valores[i].num;
+        printf("\nParte Inteira: %d", valores[i].numCastInt);
+        valores[i].fracionaria = valores[i].num - valores[i].numCastInt;
+        if( valores[i].fracionaria >= min && valores[i].fracionaria <= max ){
+            valores[i].valido = 1;
+        }
+    }
+    printf("Partes fracionárias dentro do intervalo = [ ");
+    for(int j = 0 ; j < quantidade ; j++){
+        printf("%.5f, ", valores[j].fracionaria);
+    }
+    printf("]");
+
+    
     
 }
 
@@ -403,6 +520,21 @@ void ex10(){
     printf(BOLDWHITE"======================Ex10=======================\n"RESET);
     printf("Crie um procedimento para: \nler uma linha do teclado; defina essa linha como global ; \n- separar em outra cadeia de caracteres e mostrar todos os símbolos não alfanuméricos (letras ou dígitos) na cadeia de caracteres ");
 
-    
+    char cadeiaGlobal[50], outraCadeia[50];
+    int len = strlen(cadeiaGlobal);
+    printf("Digite uma cadeia de caracteres: ");
+    scanf("%s", cadeiaGlobal);
+    for(int i = 0, k = 0 ; i < len ; i++){
+        if( (cadeiaGlobal[i] < 'a' && cadeiaGlobal[i] > 'z') && (cadeiaGlobal[i] < '0' && cadeiaGlobal[i] > '9') &&(cadeiaGlobal[i] < 'A' && cadeiaGlobal[i] > 'Z') ){
+            outraCadeia[k] = cadeiaGlobal[i];
+            k++;
+        }
+    }
+
+    printf("Caracteres não alfanumericos: [");
+    for(int j = 0 ; j < len ; j++){
+        printf("%c, ", outraCadeia[j]);
+    }
+    printf("]");
     
 }
