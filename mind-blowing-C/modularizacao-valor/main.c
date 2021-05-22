@@ -91,46 +91,84 @@ int main()
     }
 }
 
-int somaImpar(int min, int max){
+int somaImpar(int min, int max)
+{
     int somaImpares = 0;
-    if(min % 2 == 0){
+    if (min % 2 == 0)
+    {
         min++;
     }
-    if(max % 2 == 0 ){
+    if (max % 2 == 0)
+    {
         max--;
     }
-    somaImpares = min+max;
+    somaImpares = min + max;
     return somaImpares;
 }
-int ex01(){
+int ex01()
+{
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex01=======================\n" RESET);
-    printf("Elabore um procedimento que receba dois valores passados por parâmetro. Esse procedimento  deverá atribuir a variável impar, a soma dos números ímpares entre o intervalo fechado correspondente aos valores passados. Por exemplo, suponha que os valores passados seja, 3 e 6, deverá devolver impar=8, pois a soma dos números impares 3 e 5 no intervalo é 8.");
+    printf("Elabore um procedimento que receba dois valores passados por parâmetro. Esse procedimento  deverá atribuir a variável impar, a soma dos números ímpares entre o intervalo fechado correspondente aos valores passados. Por exemplo, suponha que os valores passados seja, 3 e 6, deverá devolver impar=8, pois a soma dos números impares 3 e 5 no intervalo é 8.\n\n");
 
     int min = 0, max = 0, soma = 0;
-    do{
+    do
+    {
         printf("\nDigite um numero mínimo para o intervalo: ");
         scanf("%d", &min);
         printf("\nDigite um numero máximo para o intervalo: ");
         scanf("%d", &max);
-        if(min >= max){
-            printf(BOLDRED"\n====ERRO====\nDigite valores válidos\n=========="RESET);
-        }else{
-            printf(BOLDGREEN"\n\nIntervalo: [ %d , %d ]"RESET, min, max);
+        if (min >= max)
+        {
+            printf(BOLDRED "\n====ERRO====\nDigite valores válidos\n==========" RESET);
+        }
+        else
+        {
+            printf(BOLDGREEN "\n\nIntervalo: [ %d , %d ]" RESET, min, max);
         }
     } while (min >= max);
 
     soma = somaImpar(min, max);
 
-    printf("\n A Soma do valores impares no intervalo é: [ %d ]", soma );
+    printf("\n A Soma do valores impares no intervalo é: [ %d ]", soma);
 }
-
+/*=======================================================================*/
+int numerosDeImpares(int min, int max){
+    int nImpares = 0;
+    for ( int i = min ; i <= max ; i++ ){
+        if(i % 2 == 1){
+            nImpares++;
+        }
+    }
+    return nImpares;
+}
 int ex02()
 {
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex01=======================\n" RESET);
-    printf("Elabore um procedimento que receba dois valores passados por parâmetro. Esse procedimento  deverá atribuir a variável impar, a quantidade de números ímpares entre o intervalo fechado correspondente aos valores passados. Por exemplo, suponha que os valores passados seja, 3 e 6, deverá devolver impar=2, pois existem os números impares 3 e 5 no intervalo.");
+    printf("Elabore um procedimento que receba dois valores passados por parâmetro. Esse procedimento  deverá atribuir a variável impar, a quantidade de números ímpares entre o intervalo fechado correspondente aos valores passados. Por exemplo, suponha que os valores passados seja, 3 e 6, deverá devolver impar=2, pois existem os números impares 3 e 5 no intervalo.\n\n");
+    int min = 0, max = 0, nImpares = 0;
+    do
+    {
+        printf("\nDigite um numero mínimo para o intervalo: ");
+        scanf("%d", &min);
+        printf("\nDigite um numero máximo para o intervalo: ");
+        scanf("%d", &max);
+        if (min >= max)
+        {
+            printf(BOLDRED "\n====ERRO====\nDigite valores válidos\n==========" RESET);
+        }
+        else
+        {
+            printf(BOLDGREEN "\n\nIntervalo: [ %d , %d ]" RESET, min, max);
+        }
+    } while (min >= max);
+
+    nImpares = numerosDeImpares(min, max);
+    printf("\n A quantidade de valores impares no intervalo é: [ %d ]", nImpares);
 }
+/*=======================================================================*/
+
 
 int ex03()
 {
