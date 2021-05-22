@@ -169,26 +169,44 @@ int ex02()
 }
 /*=======================================================================*/
 
-
+int somaFibonacci(int nTermos){
+   int num = 1, ultimo = 1, penultimo = 0;
+   int soma = 0;
+   printf(BOLDWHITE"[ ");
+   for(int i = nTermos ; i > 0 ; i--){
+       printf("%d, ", num);
+       soma += num;
+       num = ultimo + penultimo;
+       penultimo = ultimo;
+       ultimo = num;
+   }
+   printf("]");
+    return soma;
+}
 int ex03()
 {
     printf(BOLDWHITE "================================================\n" RESET);
-
     printf(BOLDWHITE "======================Ex01=======================\n" RESET);
+    printf("Elabore um procedimento que receba um valor passado por parâmetro. Esse procedimento deverá devolver na variável global Fiba soma dos termos da serie de Fibonacci do primeiro termo até o termo passado. Exemplo suponha que seja passado o valor 6, então deverá atribuir a variável Fiba soma de 1+1+2+3+5+8, ou seja, Fib= 20.\n\n");
 
-    printf("Elabore um procedimento que receba um valor passado por parâmetro. Esse procedimento deverá devolver na variável global Fiba soma dos termos da serie de Fibonacci do primeiro termo até o termo passado. Exemplo suponha que seja passado o valor 6, então deverá atribuir a variável Fiba soma de 1+1+2+3+5+8, ou seja, Fib= 20.");
+    int Fiba = 0, nFiba;
+    printf("Digite o numero de termos da serie de fibonacci: ");
+    scanf("%d", &nFiba);
+
+    Fiba = somaFibonacci(nFiba);
+    printf(BOLDGREEN"\nSoma dos termos: [ %d ]"RESET, Fiba);
 }
 
 int ex04()
 {
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex01=======================\n" RESET);
-    printf("Elabore um procedimento que receba um valor passado por parâmetro. Esse procedimento deverá devolver na variável global Fibo termo correspondente ao valor passado da serie de Fibonacci. Exemplo suponha que seja passado o valor 6, então deverá retorna o 6º termo da série ou seja 1,1,2,3,5,8, ou seja, deverá atribuir a variável Fibo valor 8.");
+    printf("Elabore um procedimento que receba um valor passado por parâmetro. Esse procedimento deverá devolver na variável global Fibo termo correspondente ao valor passado da serie de Fibonacci. Exemplo suponha que seja passado o valor 6, então deverá retorna o 6º termo da série ou seja 1,1,2,3,5,8, ou seja, deverá atribuir a variável Fibo valor 8.\n\n");
 }
 
 int ex05()
 {
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex01=======================\n" RESET);
-    printf("Elabore um procedimento para calcular o Fatorial de um número passado por parâmetro. A resposta deverá ser retornada em uma variável definida como global de nome FAT. Faça também um programa principal que chame esse procedimento.");
+    printf("Elabore um procedimento para calcular o Fatorial de um número passado por parâmetro. A resposta deverá ser retornada em uma variável definida como global de nome FAT. Faça também um programa principal que chame esse procedimento.\n\n");
 }
