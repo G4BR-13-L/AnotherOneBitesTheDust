@@ -232,9 +232,21 @@ int ex04()
 }
 
 /*========================================================================*/
-int ex05()
-{
+
+int fatorial(int numero){
+    int fatorial = 0;
+    for(int i = numero; i > 0 ; i--){
+        fatorial *= numero;
+    }
+    return fatorial;
+}
+int ex05(){
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex05=======================\n" RESET);
     printf("Elabore um procedimento para calcular o Fatorial de um número passado por parâmetro. A resposta deverá ser retornada em uma variável definida como global de nome FAT. Faça também um programa principal que chame esse procedimento.\n\n");
+    int numero = 0;
+    printf("Digite uma numero para que seja calculado seu fatorial: ");
+    scanf("%d", &numero);
+    int FAT = fatorial(numero);
+    printf("\nO fatorial de %d é: [ %d ]", numero, FAT);
 }
