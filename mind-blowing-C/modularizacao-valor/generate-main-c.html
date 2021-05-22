@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de main</title>
+</head>
+
+<body onload="generate()">
+    <h1>Main generator</h1>
+
+    <script src="FileSaver.js"></script>
+    <script src="db.js"></script>
+
+    <script>
+        console.log(db.initialCodeContent);
+        console.log(typeof(db.questions))
+        function generate(){
+
+            var codeBase = db.initialCodeContent;
+            var codeFunctions;
+            for (let i = 0, j = 1; i < 10; i++, j++) {
+                let tempContent = db.questions[i];
+                if (i == 9) {
+                    codeFunctions = `
+                    int ex${j}(){\n
+                        printf(BOLDWHITE"================================================\\n"RESET);\n
+                        printf(BOLDWHITE"======================Ex01=======================\\n"RESET);\n
+                        printf("${tempContent}"); \n\n  
+                    }\n ${codeFunctions}`
+                } else {
+                    codeFunctions = `
+                    int ex0${j}(){\n
+                        printf(BOLDWHITE"================================================\\n"RESET);\n
+                        printf(BOLDWHITE"======================Ex01=======================\\n"RESET);\n
+                        printf("${tempContent}");\n\n
+                    }\n ${codeFunctions} `
+                }
+                console.log(tempContent);
+               
+            }
+            var finalCode = `${codeBase}\n${codeFunctions}`
+            downloadCode(finalCode);
+        }
+            
+            function downloadCode(content) {
+            var filename = "codeGenerated.c";
+            var blob = new Blob([content], {
+                type: "sh/plain;charset=utf-8"
+            });
+            console.log(content)
+            saveAs(blob, filename);
+        }
+    </script>
+
+</body>
+
+</html>
