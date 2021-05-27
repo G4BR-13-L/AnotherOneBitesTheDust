@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="log()">
+    
+<button onclick="adicionar()">
+<button onclick="novaLista()">
+    Adicionar lista
+</button>
+<div id="listas"></div>
+</button>
+
+    <script src="bd.js"></script>
+    <script>
+
+        function log(){
+            console.log(typeof(dados));
+            console.log(dados)
+        }
+        function adicionar(){
+            dados[0].usuarios.push('Irineu');
+            console.log(dados)
+        }
+
+        function novaLista(){
+            var corpo = document.querySelector('div#listas');
+            var dadosLista = document.createElement(`
+                <div class="lista" onclick="abrirLista()">
+                    <h1>LISTA NOVA</h1>
+                    <p>${dados[0].usuarios[0]}</p>    
+                </div>
+            `);         // Create a text node
+            corpo.appendChild(dadosLista); 
+        }
+
+
+
+    </script>
+</body>
+</html>

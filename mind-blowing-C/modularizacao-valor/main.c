@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -35,6 +33,8 @@ int ex02();
 int ex03();
 int ex04();
 int ex05();
+/* DECLARAÇÂO DE VARIAVEIS GLOBAIS */
+int min = 0, max = 0, soma = 0, nImpares = 0, Fiba = 0, nFiba = 0, Fibo = 0, nFibo = 0, numero = 0, FAT = 0;
 
 int main()
 {
@@ -88,13 +88,14 @@ int somaImpar(int min, int max)
     somaImpares = min + max;
     return somaImpares;
 }
+
 int ex01()
 {
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex01=======================\n" RESET);
     printf("Elabore um procedimento que receba dois valores passados por parâmetro. Esse procedimento  deverá atribuir a variável impar, a soma dos números ímpares entre o intervalo fechado correspondente aos valores passados. Por exemplo, suponha que os valores passados seja, 3 e 6, deverá devolver impar=8, pois a soma dos números impares 3 e 5 no intervalo é 8.\n\n");
 
-    int min = 0, max = 0, soma = 0;
+    
     do
     {
         printf("\nDigite um numero mínimo para o intervalo: ");
@@ -114,6 +115,8 @@ int ex01()
     soma = somaImpar(min, max);
 
     printf("\n A Soma do valores impares no intervalo é: [ %d ]", soma);
+
+    min = 0, max = 0, soma = 0;
 }
 /*=======================================================================*/
 int numerosDeImpares(int min, int max)
@@ -133,7 +136,6 @@ int ex02()
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex02=======================\n" RESET);
     printf("Elabore um procedimento que receba dois valores passados por parâmetro. Esse procedimento  deverá atribuir a variável impar, a quantidade de números ímpares entre o intervalo fechado correspondente aos valores passados. Por exemplo, suponha que os valores passados seja, 3 e 6, deverá devolver impar=2, pois existem os números impares 3 e 5 no intervalo.\n\n");
-    int min = 0, max = 0, nImpares = 0;
     do
     {
         printf("\nDigite um numero mínimo para o intervalo: ");
@@ -152,6 +154,7 @@ int ex02()
 
     nImpares = numerosDeImpares(min, max);
     printf("\n A quantidade de valores impares no intervalo é: [ %d ]", nImpares);
+    nImpares = 0, max = 0, min = 0;
 }
 /*=======================================================================*/
 
@@ -177,12 +180,13 @@ int ex03()
     printf(BOLDWHITE "======================Ex03=======================\n" RESET);
     printf("Elabore um procedimento que receba um valor passado por parâmetro. Esse procedimento deverá devolver na variável global Fiba soma dos termos da serie de Fibonacci do primeiro termo até o termo passado. Exemplo suponha que seja passado o valor 6, então deverá atribuir a variável Fiba soma de 1+1+2+3+5+8, ou seja, Fib= 20.\n\n");
 
-    int Fiba = 0, nFiba;
     printf("Digite o numero de termos da serie de fibonacci: ");
     scanf("%d", &nFiba);
 
     Fiba = somaFibonacci(nFiba);
     printf(BOLDGREEN "\nSoma dos termos: [ %d ]" RESET, Fiba);
+    
+    Fiba = 0, nFiba = 0;
 }
 /*==========================================================*/
 int selecionaNumero(int nPosition)
@@ -205,13 +209,12 @@ int ex04()
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex04=======================\n" RESET);
     printf("Elabore um procedimento que receba um valor passado por parâmetro. Esse procedimento deverá devolver na variável global Fibo termo correspondente ao valor passado da serie de Fibonacci. Exemplo suponha que seja passado o valor 6, então deverá retorna o 6º termo da série ou seja 1,1,2,3,5,8, ou seja, deverá atribuir a variável Fibo valor 8.\n\n");
-
-    int Fibo = 0, nFibo;
     printf("Digite a posição do termo na serie de fibonacci: ");
     scanf("%d", &nFibo);
 
     Fibo = selecionaNumero(nFibo);
     printf(BOLDGREEN "\nNumero da posição %d de Fibonacci: [ %d ]" RESET, nFibo, Fibo);
+    Fibo = 0;
 }
 
 /*========================================================================*/
@@ -227,10 +230,11 @@ int fatorial(int numero){
 int ex05(){
     printf(BOLDWHITE "================================================\n" RESET);
     printf(BOLDWHITE "======================Ex05=======================\n" RESET);
-    printf("Elabore um procedimento para calcular o Fatorial de um número passado por parâmetro. A resposta deverá ser retornada em uma variável definida como global de nome FAT. Faça também um programa principal que chame esse procedimento.\n\n");
-    int numero = 0;
+    printf("Elabore um procedimento para calcular o Fatorial de um número passado por parâmetro. A resposta deverá ser retornada em uma variável definida como global de nome FAT. Faça também um programa principal que chame esse procedimento.\n\n"); 
     printf("Digite uma numero para que seja calculado seu fatorial: ");
     scanf("%d", &numero);
-    int FAT = fatorial(numero);
+    FAT = fatorial(numero);
     printf(BOLDGREEN"\nO fatorial de %d é: [ %d ]"RESET, numero, FAT);
+
+    FAT = 0, numero = 0;
 }
