@@ -1,24 +1,25 @@
-/* 
+/*
 The MIT License (MIT)
     *Copyright © 2021 Gabriel Victor - PUC Minas
     *
-    *Permission is hereby granted, free of charge, to any person obtaining a copy of
-    *this software and associated documentation files (the “Software”), to deal in
-    *the Software without restriction, including without limitation the rights to
-    *use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-    *the Software, and to permit persons to whom the Software is furnished to do so,
-    *subject to the following conditions:
+    *Permission is hereby granted, free of charge, to any person obtaining a
+copy of *this software and associated documentation files (the “Software”), to
+deal in *the Software without restriction, including without limitation the
+rights to *use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of *the Software, and to permit persons to whom the Software is
+furnished to do so, *subject to the following conditions:
     *
-    *The above copyright notice and this permission notice shall be included in all
-    *copies or substantial portions of the Software.
+    *The above copyright notice and this permission notice shall be included in
+all *copies or substantial portions of the Software.
     *
     *THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    *IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-    *FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-    *COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-    *IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-    *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+    *IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS *FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR *COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER *IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 /*
 =====================================================
 Código desenvolvido por:
@@ -73,269 +74,99 @@ void clear() { printf("\033c"); }
 #define BOLDCYAN "\033[1m\033[36m"    /* Bold Cyan */
 #define BOLDWHITE "\033[1m\033[37m"   /* Bold White */
 
-int exA();
-int exB();
-int exC();
-int exD();
-int exE();
-
-int fibonacciLen = 0;
+void gravarFibonacci();
+int exb();
+int exc();
 int main() {
-  int exec = 1, exercicio;
-  while (exec == 1) {
-    clear();
-    printf(BOLDWHITE
-           "============Autor: Gabriel Victor Couto Martins de "
-           "Paula===========\n" RESET);
-    printf(BOLDWHITE
-           "\n= Exercícios:\n= A == 1\n= B == 2\n= C == 3\n= D == 4\n= E == "
-           "5\n\n" RESET);
-    printf(BOLDWHITE
-           "======================Selecione um "
-           "exercício=======================\n" RESET);
-    printf(BOLDWHITE "                    [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]" RESET);
-    printf("\n                                  ");
-    scanf("%d", &exercicio);
-    switch (exercicio) {
-      case 1:
-        exA();
-        break;
-      case 2:
-        exB();
-        break;
-      case 3:
-        exC();
-        break;
-      case 4:
-        exD();
-        break;
-      case 5:
-        exE();
-        break;
-      default:
-        printf(BOLDWHITE "Exercício inexistente\n\n" RESET);
-        break;
-    }
-    printf("\n\nDeseja continuar a execução?  [Sim = 1 / Não = 0]");
-    scanf("%d", &exec);
-    clear();
-  }
+  gravarFibonacci();
+  exb();
+  exc();
 }
 
-int exA() {
-  printf(BOLDWHITE
-         "a)-gravar em um arquivo os 64 primeiros valores da série: 1 1 2 3 5 "
-         "8 13 21 34 . . ." RESET);
-  int len = 0;
-  printf("\n\nDigite o tamanho da sequencia de fibonacci: ");
-  scanf("%d", &len);
-
-  int fibonacci[len];
-  char mensagem[255] = {};
-  int num = 1, ultimo = 1, penultimo = 0;
-  printf(BOLDWHITE "[ ");
+void gravarFibonacci() {
+  FILE* fp;
+  float num = 1, ultimo = 1, penultimo = 0;
   int i = 0;
-  for (i = len; i > 0; i--) {
+  float fibonacci[64];
+  printf("\nCriando Arquivo fibonacciLinear.txt\n");
+  fp = fopen("fibonacciLinear.txt", "w+");
+  for (int i = 0; i < 64; i++) {
     fibonacci[i] = num;
     num = ultimo + penultimo;
     penultimo = ultimo;
     ultimo = num;
+    fprintf(fp, "%.0f\n", fibonacci[i]);
   }
-  printf("]");
-  for (int j = len; j > 0; j--) {
-    sprintf(&mensagem[strlen(mensagem)], "%d ", fibonacci[j]);
-  }
-  FILE* arquivo;
-  if ((arquivo = fopen("arquivo.txt", "w")) == NULL)  // modo de escrita ativo
+  fclose(fp);
+
+  printf("\nfibonacciLinear.txt Criado com SUCESSO\n");
+}
+
+int exb() {
+  FILE* pFile;
+  float fibonacci[64];
+  if ((pFile = fopen("fibonacciLinear.txt", "r")) == NULL)  // Reading a file
   {
-    printf("Erro de abertura!\n ");
+    printf("File could not be opened.\n");
   } else {
-    fprintf(arquivo, "%s \n ", mensagem);
-    fclose(arquivo);
-  }
-  printf("Fibonacci Gravado no arquivo: ");
-  printf(BOLDBLUE "[ %s ]\n\n" RESET, mensagem);
-}
-
-int exB() {
-  printf(BOLDWHITE
-         "\nb)-ler o arquivo letra a e armazenar os dados em uma matriz 8 x 8 "
-         "imprima essa matriz na tela.\n\n" RESET);
-  int fibonacciLido[255];
-  FILE* arquivoLeitura;
-
-  int k = 0;
-  if ((arquivoLeitura = fopen("arquivo.txt", "r")) == NULL) {
-    printf("Erro de abertura! \n");
-  } else {
-    while (!feof(arquivoLeitura)) {
-      fscanf(arquivoLeitura, "%d", &fibonacciLido[k]);
-      k++;
-    }
-    fclose(arquivoLeitura);
-  }
-  int* fibonacciFormatado;
-  fibonacciFormatado = (int*)malloc((k - 1) + sizeof(int));
-  for (int g = 0; g < k - 1; g++) {
-    fibonacciFormatado[g] = fibonacciLido[g];
-  }
-  fibonacciLen = k - 1;
-  int mat[8][8];
-  size_t f = k - 1;
-  int fibo = 0;
-  for (int y = 0; y < 8; y++) {
-    for (int p = 0; p < 8; p++) {
-      if (fibo >= f) {
-        mat[y][p] = 0;
-      } else {
-        mat[y][p] = fibonacciFormatado[fibo];
-        fibo++;
-      }
+    char buffer[200];
+    int i = 0;
+    fgets(buffer, 200, pFile);
+    while (!feof(pFile)) {
+      sscanf(buffer, "%f", &fibonacci[i]);
+      fgets(buffer, 200, pFile);
+      i++;
     }
   }
-  // Printar matriz ======================
-  printf("      ");
+  fclose(pFile);
+  int width = 15;
+  int p = 0;
   for (int j = 0; j < 8; j++) {
-    printf(BOLDWHITE "%d     " RESET, j);
-  }
-  printf("\n");
-  for (int k = 0, i = 0; k < 8; k++, i++) {
-    printf(BOLDWHITE "%d " RESET, i);
-    printf(BOLDGREEN "| ");
-    for (int l = 0; l < 8; l++) {
-      printf(" [%d] ", mat[k][l]);
+    for (int k = 0; k < 8; k++) {
+      printf(BOLDGREEN "[%*.0f] " RESET, width, fibonacci[p]);
+      p++;
     }
-    printf(" |\n" RESET);
+    printf("\n");
   }
-
-  // Printar matriz =====================
 }
 
-int exC() {
-  printf(BOLDWHITE
-         "\nc)-ler o arquivo letra a e armazenar os dados em uma matriz 8 x 8 "
-         "armazene essa matriz em um arquivo.\n" RESET);
-
-  int fibonacciLido[255];
-  FILE* arquivoLeitura;
-  int k = 0;
-  if ((arquivoLeitura = fopen("arquivo.txt", "r")) == NULL) {
-    printf("Erro de abertura! \n");
+int exc() {
+  FILE* fp;
+  float fibonacci[64];
+  if ((fp = fopen("fibonacciLinear.txt", "r")) == NULL)  // Reading a file
+  {
+    printf("File could not be opened.\n");
   } else {
-    while (!feof(arquivoLeitura)) {
-      fscanf(arquivoLeitura, "%d", &fibonacciLido[k]);
-      k++;
-    }
-    fclose(arquivoLeitura);
-  }
-  int fibonacciFormatado[k - 1];
-  for (int g = 0; g < k - 1; g++) {
-    fibonacciFormatado[g] = fibonacciLido[g];
-  }
-  fibonacciLen = k - 1;
-  int mat[8][8];
-  size_t f = k - 1;
-  int fibo = 0;
-  for (int y = 0; y < 8; y++) {
-    for (int p = 0; p < 8; p++) {
-      if (fibo >= f) {
-        mat[y][p] = 0;
-      } else {
-        mat[y][p] = fibonacciFormatado[fibo];
-        fibo++;
-      }
+    char buffer[200];
+    int i = 0;
+    fgets(buffer, 200, fp);
+    while (!feof(fp)) {
+      sscanf(buffer, "%f", &fibonacci[i]);
+      fgets(buffer, 200, fp);
+      i++;
     }
   }
-  FILE* arquivo;
-  if ((arquivo = fopen("arquivoMatriz.txt", "w")) == NULL) {
-    printf("Erro de abertura!\n ");
-  } else {
-    int fibo = 0;
-    for (int y = 0; y < 8; y++) {
-      for (int p = 0; p < 8; p++) {
-        if (fibo >= fibonacciLen) {
-          mat[y][p] = 0;
-          fprintf(arquivo, "[ %d ]", mat[y][p]);
-        } else {
-          fibo++;
-          fprintf(arquivo, "[ %d ]", mat[y][p]);
-        }
-      }
-      fprintf(arquivo, "\n");
+  fclose(fp);
+
+  int width = 15;
+  int p = 0;
+
+  fp = fopen("fibonacciMatriz.txt", "w+");
+
+  for (int j = 0; j < 8; j++) {
+    for (int k = 0; k < 8; k++) {
+      fprintf(fp, "[%*.0f] ", width, fibonacci[p]);
+      p++;
     }
-    fclose(arquivo);
+    fprintf(fp,"%s\n", " ");
   }
+  fclose(fp);
 }
 
-int pegarTamanhoFibonacci() {
-  int fibonacciLido[255];
-  FILE* arquivoLeitura;
-  int k = 0;
-  if ((arquivoLeitura = fopen("arquivo.txt", "r")) == NULL) {
-    printf("Erro de abertura! \n");
-  } else {
-    while (!feof(arquivoLeitura)) {
-      fscanf(arquivoLeitura, "%d", &fibonacciLido[k]);
-      k++;
-    }
-    fclose(arquivoLeitura);
-  }
-  return k - 1;
-}
-int exD() {
-  printf(BOLDWHITE
-         "\nd)-ler o arquivo letra ae armazenar os valores pares em um arquivo "
-         "e os impares em outro arquivo.\n\n" RESET);
-  FILE* arq = fopen("arquivo.txt", "r");
-  FILE* pares = fopen("pares.txt", "w");
-  FILE* impares = fopen("impares.txt", "w");
-  int tamanho = pegarTamanhoFibonacci();
-  fibonacciLen = tamanho;
-  for (int i = 0; i < tamanho; i++) {
-    int lido;
-    fscanf(arq, "%d", &lido);
-    if (lido % 2 == 0)
-      fprintf(pares, "%d ", lido);
-    else
-      fprintf(impares, "%d ", lido);
-  }
-
-  fclose(arq);
-  fclose(pares);
-  fclose(impares);
-}
-bool primo(int n) {
-  bool primo = true;
-
-  for (int i = 2; i < n / 2 && primo; i++) {
-    if (n % i == 0) primo = false;
-  }
-
-  return primo;
-}
-
-int exE() {
-  printf(BOLDWHITE
-         "\ne)-ler o arquivo letra a e armazenar em um vetor apenas os primos, "
-         "imprima esse vetor, e salve os dados desse vetor em um "
-         "arquivo.\n\n" RESET);
-  FILE* arq = fopen("arquivo.txt", "r");
-  FILE* out = fopen("primos.txt", "w");
-  int tamanho = pegarTamanhoFibonacci();
-  fibonacciLen = tamanho;
-  int primos[tamanho];
-  int contador = 0;
-
-  for (int i = 0; i < tamanho; i++) {
-    int lido;
-    fscanf(arq, "%d", &lido);
-
-    if (primo(lido)) {
-      primos[contador++] = lido;
-      printf("%d ", lido);
-      fprintf(out, "%d ", lido);
-    }
-  }
-  fclose(arq);
-  fclose(out);
+int randomNumber(int inicial, int final) {
+  int x;
+  do {
+    x = (rand() % (final - inicial + 1)) + inicial;
+  } while (x < inicial);
+  return x;
 }
