@@ -1,25 +1,4 @@
-/*
-The MIT License (MIT)
-    *Copyright © 2021 Gabriel Victor - PUC Minas
-    *
-    *Permission is hereby granted, free of charge, to any person obtaining a
-copy of *this software and associated documentation files (the “Software”), to
-deal in *the Software without restriction, including without limitation the
-rights to *use, copy, modify, merge, publish, distribute, sublicense, and/or
-sell copies of *the Software, and to permit persons to whom the Software is
-furnished to do so, *subject to the following conditions:
-    *
-    *The above copyright notice and this permission notice shall be included in
-all *copies or substantial portions of the Software.
-    *
-    *THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    *IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS *FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR *COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER *IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+
 /*
 =====================================================
 Código desenvolvido por:
@@ -35,7 +14,7 @@ Código desenvolvido por:
 
 /*
  *Trabalho de Acesso sequecial de arquivos
- * 20/06/2021
+ * 23/06/2021
  * Algoritmos e Estruturas de dados - PUC Minas
  * Engenharia de Software;
  */
@@ -74,16 +53,48 @@ void clear() { printf("\033c"); }
 #define BOLDCYAN "\033[1m\033[36m"    /* Bold Cyan */
 #define BOLDWHITE "\033[1m\033[37m"   /* Bold White */
 
-void gravarFibonacci();
+void exa();
 int exb();
 int exc();
+int exd();
+int exe();
+
 int main() {
-  gravarFibonacci();
+    clear();
+  /**Função para escrever a serie de fibonncai
+   * No arquivo [ fibonacciLiner.txt ]
+   */
+  exa();
+
+  /**Função para Ler o arquivo [ fibonacciLinear.txt ]
+   * e escrever os numeros em forma de matriz na tela;
+   */
   exb();
+
+  /**Função para Ler o arquivo [ fibonacciLinear.txt ]
+   * e grava-los em forma de matriz no arquivo
+   * [ fibonacciMatriz.txt ];
+   */
   exc();
+
+  /**Função que lê o arquivo [ fibonacciLinear.txt ]
+   * e ragistra os numeros impares no arquivo
+   * [ fibonacci - Impares.tx] e os arquivos pares
+   * no arquivo [ fibonacci - Pares.txt]
+   */
+  exd();
+
+  /**Função para Ler o arquivo [ fibonacciLinear.txt ]
+   * e escrever os numeros primos no arquivo
+   * [ primos.txt ];
+   */
+  exe();
 }
 
-void gravarFibonacci() {
+void exa() {
+  printf(BOLDWHITE
+         "a)-gravar em um arquivo os 64 primeiros valores da série: 1 1 2 3 5 "
+         "8 13 21 34 . . .\n" RESET);
   FILE* fp;
   float num = 1, ultimo = 1, penultimo = 0;
   int i = 0;
@@ -99,10 +110,13 @@ void gravarFibonacci() {
   }
   fclose(fp);
 
-  printf("\nfibonacciLinear.txt Criado com SUCESSO\n");
+  printf(BOLDGREEN "\nfibonacciLinear.txt Criado com SUCESSO\n" RESET);
 }
 
 int exb() {
+  printf(BOLDWHITE
+         "\nb)-ler o arquivo letra a e armazenar os dados em uma matriz 8 x 8 "
+         "imprima essa matriz na tela.\n\n" RESET);
   FILE* pFile;
   float fibonacci[64];
   if ((pFile = fopen("fibonacciLinear.txt", "r")) == NULL)  // Reading a file
@@ -128,9 +142,13 @@ int exb() {
     }
     printf("\n");
   }
+  printf(BOLDGREEN "\nMatriz exibida com SUCESSO\n" RESET);
 }
 
 int exc() {
+  printf(BOLDWHITE
+         "\nc)-ler o arquivo letra a e armazenar os dados em uma matriz 8 x 8 "
+         "armazene essa matriz em um arquivo.\n" RESET);
   FILE* fp;
   float fibonacci[64];
   if ((fp = fopen("fibonacciLinear.txt", "r")) == NULL)  // Reading a file
@@ -158,15 +176,91 @@ int exc() {
       fprintf(fp, "[%*.0f] ", width, fibonacci[p]);
       p++;
     }
-    fprintf(fp,"%s\n", " ");
+    fprintf(fp, "%s\n", " ");
   }
   fclose(fp);
+
+  printf(BOLDGREEN
+         "\nArquivo [ fibonacciMatriz.txt ] criado com SUCESSO\n" RESET);
 }
 
-int randomNumber(int inicial, int final) {
-  int x;
-  do {
-    x = (rand() % (final - inicial + 1)) + inicial;
-  } while (x < inicial);
-  return x;
+int exd() {
+  printf(BOLDWHITE
+         "\nd)-ler o arquivo letra ae armazenar os valores pares em um arquivo "
+         "e os impares em outro arquivo.\n\n" RESET);
+  FILE* fp;
+  float fibonacci[64];
+  if ((fp = fopen("fibonacciLinear.txt", "r")) == NULL)  // Reading a file
+  {
+    printf("File could not be opened.\n");
+  } else {
+    char buffer[200];
+    int i = 0;
+    fgets(buffer, 200, fp);
+    while (!feof(fp)) {
+      sscanf(buffer, "%f", &fibonacci[i]);
+      fgets(buffer, 200, fp);
+      i++;
+    }
+  }
+  fclose(fp);
+
+  fp = fopen("fibonacci - Impares.txt", "w+");
+  int aux = 0;
+  fprintf(fp, "%s\n ", "[ Numeros Impares ]");
+  for (int j = 0; j < 64; j++) {
+    aux = fibonacci[j];
+    if (aux % 2 == 1) {
+      fprintf(fp, "%.0f ", fibonacci[j]);
+    }
+  }
+  fclose(fp);
+  printf(BOLDGREEN
+         "\nArquivo [ fibonacci - Impares.txt ] criado com SUCESSO" RESET);
+  fp = fopen("fibonacci - Pares.txt", "w+");
+  int aux1 = 0;
+  fprintf(fp, "%s\n ", "[ Numeros Pares ]");
+  for (int j = 0; j < 64; j++) {
+    aux1 = fibonacci[j];
+    if (aux1 % 2 == 0) {
+      fprintf(fp, "%.0f ", fibonacci[j]);
+    }
+  }
+  fclose(fp);
+  printf(BOLDGREEN
+         "\nArquivo [ fibonacci - Pares.txt ] criado com SUCESSO\n" RESET);
+}
+
+bool primo(int n) {
+  bool primo = true;
+
+  for (int i = 2; i < n / 2 && primo; i++) {
+    if (n % i == 0) primo = false;
+  }
+
+  return primo;
+}
+int exe() {
+  printf(BOLDWHITE
+         "\ne)-ler o arquivo letra a e armazenar em um vetor apenas os primos, "
+         "imprima esse vetor, e salve os dados desse vetor em um "
+         "arquivo.\n\n" RESET);
+  FILE* arq = fopen("fibonacciLinear.txt", "r");
+  FILE* out = fopen("primos.txt", "w");
+  int tamanho = 64;
+  float primos[tamanho];
+  int contador = 0;
+
+  for (int i = 0; i < tamanho; i++) {
+    float lido;
+    fscanf(arq, "%f", &lido);
+
+    if (primo(lido)) {
+      primos[contador++] = lido;
+      fprintf(out, "%.0f ", lido);
+    }
+  }
+  fclose(arq);
+  fclose(out);
+  printf(BOLDGREEN "\nArquivo [ primos.txt ] criado com SUCESSO\n" RESET);
 }
