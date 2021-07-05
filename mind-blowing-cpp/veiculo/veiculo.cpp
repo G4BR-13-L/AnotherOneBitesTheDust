@@ -154,34 +154,38 @@ int Caminhao::getCapacidade() { return capacidade; }
 int Caminhao::getFrete() { return frete; }
 
 int main() {
-  cout << BOLDGREEN << "\n\nIniciando objeto Veiculo..." << RESET;
+  cout << BOLDRED << "\n\nIniciando objeto Veiculo..." << RESET;
   Veiculo veiculo(2021, "ABC-1234", 10);
 
-  cout << BOLDGREEN << "\nInicialdo ojeto automovel..." << RESET;
+  cout << BOLDGREEN << "\nIniciando objeto automovel..." << RESET;
   Automovel automovel(2020, "DEF-5678", 200, 4, 100);
 
-  cout << BOLDGREEN << "\nIniciando objeto caminhao..." << RESET;
+  cout << BOLDBLUE << "\nIniciando objeto caminhao..." << RESET;
   Caminhao caminhao(2019, "GHI-9101", 600, 12, 22, 100);
 
   // Impress�o dos dados
-  cout << BOLDBLUE << "\n\n-----------------------------------------------\n"
+  cout << BOLDRED << "\n\n-----------------------------------------------\n"
        << RESET;
-  cout << BOLDBLUE << "\nDados do objeto Veiculo" << RESET;
+  cout << BOLDRED << "Dados do objeto Veiculo" << RESET;
   cout << "\nPlaca: " << veiculo.getPlaca();
   cout << "\nAno de fabricacao: " << veiculo.getAno();
   cout << "\nQuilimetros rodados: " << veiculo.getKmAtual();
-  cout << BOLDBLUE << "\n-----------------------------------------------\n"
+  cout << BOLDRED << "\n-----------------------------------------------\n"
        << RESET;
-  cout << "\nDados do objeto Automovel";
+  cout << BOLDGREEN << "-----------------------------------------------\n"
+       << RESET;
+  cout << BOLDGREEN "Dados do objeto Automovel" << RESET;
   cout << "\nPlaca: " << automovel.getPlaca();
   cout << "\nAno de fabricação: " << automovel.getAno();
   cout << "\nQuilometros rodados: " << automovel.getKmAtual();
   cout << "\nQuantidade de portas: " << automovel.getPortas();
   cout << "\nkm da ultima revisao: " << automovel.getRevisao();
-  cout << BOLDBLUE << "\n-----------------------------------------------\n"
+  cout << BOLDGREEN << "\n-----------------------------------------------\n"
+       << RESET;
+  cout << BOLDBLUE << "-----------------------------------------------\n"
        << RESET;
 
-  cout << BOLDBLUE << "\nDados do objeto Caminhao" << RESET;
+  cout << BOLDBLUE << "Dados do objeto Caminhao" << RESET;
   cout << "\nPlaca: " << caminhao.getPlaca();
   cout << "\nAno de fabricacao: " << caminhao.getAno();
   cout << "\nQuilometros rodados: " << caminhao.getKmAtual();
