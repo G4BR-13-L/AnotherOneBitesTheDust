@@ -16,6 +16,19 @@ Código desenvolvido por:
 #include <stdlib.h>
 #include <string.h>
 
+int decimais(const char *str) {
+  char *dot = strstr(str, ".");
+  if (dot == NULL) return 0;
+  int len = strlen(dot) - 1;
+  for (int i = len; i >= 0; i--) {
+    if (dot[i] == '0')
+      len--;
+    else
+      break;
+  }
+  return len > 0 ? len : 0;
+};
+
 int main() {
   // LEITURA DA QUANTIDADE DE NUMEROS
   int n = 0;
@@ -26,61 +39,28 @@ int main() {
   for (int i = 0; i < n; i++) {
     char aux[500];
     scanf("%s", aux);
-    sprintf(lista[i], "0%s", aux);
+    sprintf(lista[i], "%s", aux);
   }
 
   // ESCRITA DE TODOS OS NUMEROS EM UM ARQUIVO
-  FILE* arquivoEscrita;
+  FILE *arquivoEscrita;
   arquivoEscrita = fopen("lista.txt", "w+");
   for (int j = n - 1; j >= 0; j--) {
     fprintf(arquivoEscrita, "%s\n", lista[j]);
   }
   fclose(arquivoEscrita);
 
-  // LEITURA DOS NUMEROS DO ARQUIVO COMO FLOAT
-  FILE* arquivoLeitura;
-  char listaNumerosLidos[n][50];
-  if ((arquivoLeitura = fopen("lista.txt", "r")) == NULL) {
-    printf("impossivel abrir o arquivo\n");
-  } else {
-    char buffer[50];
-    int i = 0;
-    fgets(buffer, 50, arquivoLeitura);
-    while (!feof(arquivoLeitura)) {
-      sscanf(buffer, "%s", listaNumerosLidos[i]);
-      fgets(buffer, 50, arquivoLeitura);
-      i++;
-    }
-  }
-  fclose(arquivoLeitura);
-
   // PRINTANDO OS NUMEROS
-  /*for( int h = 0 ; h < n ; h++ ){
-  printf("%s\n", listaNumerosLidos[h]);
-  }*/
-  for (int k = 0; k < n; k++) {
-    int len = strlen(listaNumerosLidos[k]);
+  for (int k = n - 1; k >= 0; k--) {
+    int len = strlen(lista[k]);
     char string[len];
-    strcpy(string, listaNumerosLidos[k]);
-    for (int m = 1; m < len; m++) {
-      if (string[1] == '.' && m == 1) {
-        printf("0");
-      }
-      if (string[m] != '0' && string[m + 1] == '0' && string[m + 2] == '0') {
-        printf("%c", string[m]);
-        m = len;
-      } else if (string[m] != '0' && string[m + 1] == '0' &&
-                 string[m + 2] != '0') {
-        printf("%c%c%c", string[m], string[m++], string[m + 1]);
-      } else if (string[m] == '0' && string[m + 1] == '0' && string[m + 2] == '0') {
-        m = len;
-      } else if (string[m] == '0' && m == len - 1) {
-        m = len;
-      } else {
-        printf("%c", string[m]);
-      }
-    }
-    printf("\n");
+    strcpy(string, lista[k]);
+    float value;
+    sscanf(string, "%f", &value);
+    int qt = decimais(string);
+    char format[6] = {'%', '.', 'x', 'f', '\n', 0};
+    format[2] = '0' + qt;
+    printf(format, value);
   }
 
   return 0;
