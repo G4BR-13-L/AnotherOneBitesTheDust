@@ -32,9 +32,6 @@ public class Main {
             listaDeUrls[i] = aux.url;
             aux = aux.getProximo();
         }
-        /*for (int k = 0; k < listaDeSites.length; k++) {
-            stdout.println(listaDeSites[k]);
-        }*/
         String caracteres[] = { "a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú", "à", "è", "ì", "ò", "ù", "ã", "õ", "â", "ê", "î", "ô", "û", "consoante", "<br>", "<table>"};
         for (int k = 0; k < listaDeSites.length; k++) {
             int[] nElementos = new int[25];
@@ -58,10 +55,21 @@ public class Main {
         stdout.close();
     }
 
+    /**
+     * Função que verifica de uma String é igual a FIM
+     * @return True ou False
+     * */
     public static boolean isFim(String s) {
         return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
 
+
+    /**
+     * Essa função lé capaz de ler todos os nomes de series
+     * e urls de sites, colocando todos os valores em uma lista ligada. 
+     * @return Retorna uma lista ligada.
+     * @throws Exception
+     */
     public static ListaString lerTudo() throws Exception {
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in, Charset.forName("ISO-8859-1")));
         ListaString listaSites = new ListaString();
@@ -104,151 +112,71 @@ public class Main {
 
     }
 
+    /**
+     * Função que pesquisa por todas as vogai e consoantes
+     * @return um Array de 25 posições com varios numeros
+     */
     public static int[] quantosElementosTemNaString(String html) {
-        int posicao = 0;
         int[] encontrados = new int[25];
         for ( int j = 0 ; j < 25 ; j++ ){
             encontrados[j] = 0;
         }
         for (int i = 0; i < html.length(); i++) {
-            switch(html.charAt(i)){
-                case 'a':
-                encontrados[0]++;
-                break;
-                case 'e':
-                encontrados[1]++;
-                break;
-                case 'i':
-                encontrados[2]++;
-                break;
-                case 'o':
-                encontrados[3]++;
-                break;
-                case 'u':
-                encontrados[4]++;
-                break;
-                case 'á':
-                encontrados[5]++;
-                break;
-                case 'é':
-                encontrados[6]++;
-                break;
-                case 'í':
-                encontrados[7]++;
-                break;
-                case 'ó':
-                encontrados[8]++;
-                break;
-                case 'ú':
-                encontrados[9]++;
-                break;
-                case 'à':
-                encontrados[10]++;
-                break;
-                case 'è':
-                encontrados[11]++;
-                break;
-                case 'ì':
-                encontrados[12]++;
-                break;
-                case 'ò':
-                encontrados[13]++;
-                break;
-                case 'ù':
-                encontrados[14]++;
-                break;
-                case 'ã':
-                encontrados[15]++;
-                break;
-                case 'õ':
-                encontrados[16]++;
-                break;
-                case 'â':
-                encontrados[17]++;
-                break;
-                case 'ê':
-                encontrados[18]++;
-                break;
-                case 'î':
-                encontrados[19]++;
-                break;
-                case 'ô':
-                encontrados[20]++;
-                break;
-                case 'û':
-                encontrados[21]++;
-                break;
+            switch(html.charAt(i)){ 
+                case 'a':encontrados[0]++; break;
+                case 'e':encontrados[1]++;break;
+                case 'i':encontrados[2]++;break;
+                case 'o':encontrados[3]++;break;
+                case 'u':encontrados[4]++;break;
+                case 'á':encontrados[5]++;break;
+                case 'é':encontrados[6]++;break;
+                case 'í':encontrados[7]++;break;
+                case 'ó':encontrados[8]++;break;
+                case 'ú':encontrados[9]++;break;
+                case 'à':encontrados[10]++;break;
+                case 'è':encontrados[11]++;break;
+                case 'ì':encontrados[12]++;break;
+                case 'ò':encontrados[13]++;break;
+                case 'ù':encontrados[14]++;break;
+                case 'ã':encontrados[15]++;break;
+                case 'õ':encontrados[16]++;break;
+                case 'â':encontrados[17]++;break;
+                case 'ê':encontrados[18]++;break;
+                case 'î':encontrados[19]++;break;
+                case 'ô':encontrados[20]++;break;
+                case 'û':encontrados[21]++;break;
                 // -----
-                case 'b':
-                encontrados[22]++;
-                break;
-                case 'c':
-                encontrados[22]++;
-                break;
-                case 'd':
-                encontrados[22]++;
-                break;
-                case 'f':
-                encontrados[22]++;
-                break;
-                case 'g':
-                encontrados[22]++;
-                break;
-                case 'h':
-                encontrados[22]++;
-                break;
-                case 'j':
-                encontrados[22]++;
-                break;
-                case 'k':
-                encontrados[22]++;
-                break;
-                case 'l':
-                encontrados[22]++;
-                break;
-                case 'm':
-                encontrados[22]++;
-                break;
-                case 'n':
-                encontrados[22]++;
-                break;
-                case 'p':
-                encontrados[22]++;
-                break;
-                case 'q':
-                encontrados[22]++;
-                break;
-                case 'r':
-                encontrados[22]++;
-                break;
-                case 's':
-                encontrados[22]++;
-                break;
-                case 't':
-                encontrados[22]++;
-                break;
-                case 'v':
-                encontrados[22]++;
-                break;
-                case 'w':
-                encontrados[22]++;
-                break;
-                case 'x':
-                encontrados[22]++;
-                break;
-                case 'y':
-                encontrados[22]++;
-                break;
-                case 'z':
-                encontrados[22]++;
-                break;
-                default:
-                    ;
-                break; 
+                case 'b':encontrados[22]++;break;
+                case 'c':encontrados[22]++;break;
+                case 'd':encontrados[22]++;break;
+                case 'f':encontrados[22]++;break;
+                case 'g':encontrados[22]++;break;
+                case 'h':encontrados[22]++;break;
+                case 'j':encontrados[22]++;break;
+                case 'k':encontrados[22]++;break;
+                case 'l':encontrados[22]++;break;
+                case 'm':encontrados[22]++;break;
+                case 'n':encontrados[22]++;break;
+                case 'p':encontrados[22]++;break;
+                case 'q':encontrados[22]++;break;
+                case 'r':encontrados[22]++;break;
+                case 's':encontrados[22]++;break;
+                case 't':encontrados[22]++;break;
+                case 'v':encontrados[22]++;break;
+                case 'w':encontrados[22]++;break;
+                case 'x':encontrados[22]++;break;
+                case 'y':encontrados[22]++;break;
+                case 'z':encontrados[22]++;break;
+                default:    ;break; 
             }
         }
         return encontrados;
     }
+
+    /**
+     * Função que pesquisa por elementos específicos como <br> e <table>
+     * @return Um inteiro que representa a quantidade de elementos encontrados
+     */
     public static int contabilizarElementosHTML(String pesquisa, String html) {
         int tamanho = pesquisa.length();
         int posicao = 0;
@@ -275,6 +203,8 @@ public class Main {
         return listaDeChavesValor;
     }
 }
+
+// CLASSE PARA FORMATAÇÃO DA SAIDA COM CHAVE E QUANTIDADE DE ELEMENTOS ENCONTRADOS
 class StringFormat{
     public String chave;
     public int quantidade;
@@ -284,6 +214,11 @@ class StringFormat{
         this.quantidade = quantidade;
     }
 }
+
+
+// CLASSES PARA CRIAÇÃO DE LISTAS LIGADAS
+// ======================================
+
 class ItemLista {
     public String chave;
     public String url;
