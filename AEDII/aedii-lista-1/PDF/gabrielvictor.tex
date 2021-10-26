@@ -1,0 +1,235 @@
+%% abtex2-modelo-trabalho-academico.tex, v<VERSION> laurocesar
+%% Copyright 2012-<COPYRIGHT_YEAR> by abnTeX2 group at http://www.abntex.net.br/ 
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is the abnTeX2 team, led
+%% by Lauro César Araujo. Further information are available on 
+%% http://www.abntex.net.br/
+%%
+%% This work consists of the files abntex2-modelo-trabalho-academico.tex,
+%% abntex2-modelo-include-comandos and abntex2-modelo-references.bib
+%%
+
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% abnTeX2: Modelo de Trabalho Academico (tese de doutorado, dissertacao de
+% mestrado e trabalhos monograficos em geral) em conformidade com 
+% ABNT NBR 14724:2011: Informacao e documentacao - Trabalhos academicos -
+% Apresentacao
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
+	twoside,			% para impressão em recto e verso. Oposto a oneside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	french,				% idioma adicional para hifenização
+	spanish,			% idioma adicional para hifenização
+	brazil				% o último idioma é o principal do documento
+	]{abntex2}
+
+% ---
+% Pacotes básicos 
+% ---		
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 			% para melhorias de justificação
+% ---
+		
+% ---
+% Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
+% ---
+\usepackage{lipsum}				% para geração de dummy text
+% ---
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\titlespacing*{\section}
+{0pt}{1.5ex plus 0.5ex minus .1ex}{0.3ex plus 0.05ex}
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{\rmfamily{Lista 1}}
+
+\autor{\rmfamily{GABRIEL VICTOR COUTO MARTINS DE PAULA}}
+\local{Belo Horizonte}
+\data{2021}
+\orientador{Rodrigo Richard Gomes}
+\instituicao{%
+PONTIFÍCIA UNIVERSIDADE CATAÓLICA DE MINAS GERAIS
+  \par
+  Instituto de Ciências Exatas e Informática
+  \par
+  Programa de Graduação}
+\tipotrabalho{acadêmico}
+% O preambulo deve conter o tipo do trabalho, o objetivo, 
+% o nome da instituição e a área de concentração 
+\preambulo{Modelo canônico de trabalho monográfico acadêmico em conformidade com
+as normas ABNT apresentado à comunidade de usuários \LaTeX.}
+% ---
+
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+
+
+\definecolor{commentsColor}{rgb}{0.497495, 0.497587, 0.497464}
+\definecolor{keywordsColor}{rgb}{0.000000, 0.000000, 0.635294}
+\definecolor{stringColor}{rgb}{0.558215, 0.000000, 0.135316}
+\lstdefinestyle{chstyle}{
+    backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+    basicstyle=\ttfamily\footnotesize,        % the size of the fonts that are used for the code
+    breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    breaklines=true,                 % sets automatic line breaking
+    captionpos=b,                    % sets the caption-position to bottom
+    commentstyle=\color{commentsColor}\textit,    % comment style
+    deletekeywords={...},            % if you want to delete keywords from the given language
+    escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+    extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+    frame=tb,	                   	   % adds a frame around the code
+    keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+    keywordstyle=\color{keywordsColor}\bfseries,       % keyword style
+    language=Python,                 % the language of the code (can be overrided per snippet)
+    otherkeywords={*,...},           % if you want to add more keywords to the set
+    numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+    numbersep=5pt,                   % how far the line-numbers are from the code
+    numberstyle=\tiny\color{commentsColor}, % the style that is used for the line-numbers
+    rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+    showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+    showstringspaces=false,          % underline spaces within strings only
+    showtabs=false,                  % show tabs within strings adding particular underscores
+    stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+    stringstyle=\color{stringColor}, % string literal style
+    tabsize=2,	                   % sets default tabsize to 2 spaces
+    title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
+    columns=fixed                    % Using fixed column width (for e.g. nice alignment)
+}
+% ----
+% Início do documento
+% ----
+\begin{document}
+    
+% Seleciona o idioma do documento (conforme pacotes do babel)
+%\selectlanguage{english}
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+\begin{center}
+    \thispagestyle{empty}
+    \includegraphics[scale=0.7]{figuras/PUC.png}\\
+\normalsize
+\textbf{PONTIFÍCIA UNIVERSIDADE CATÓLICA DE MINAS GERAIS}\\
+\textbf{Engenharia de Software}\\
+\vspace{3.5cm}
+GABRIEL VICTOR COUTO MARTINS DE PAULA\\
+\vspace{4cm}
+\textbf{LISTA 1 \\ Algoritmos e Estruturas de dados II}
+\\
+\vspace{9cm}
+Belo Horizonte\\
+2021
+\end{center}
+\newpage
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+% \pretextual
+% ---
+% Folha de rosto
+% (o * indica que haverá a ficha bibliográfica)
+% ---
+\imprimirfolhaderosto
+
+
+
+\tableofcontents
+
+\section{Questão 1}
+\textbf{Crie na CLista o método void InsereAntesDe(Object ElementoAInserir, Object Elemento) que insere o ElementoAInserir na posição anterior ao Elemento passado por parâmetro.}
+\begin{lstlisting}[language=Java, style=chstyle] 
+    public void InsereAntesDe(Elemento ElementoAInserir, Elemento Elemento){
+       Elemento atual = this.primeiro;
+       while(true){
+           if(atual == Elemento){
+               ElementoAInserir.setProximo(atual);
+               this.primeiro = ElementoAInserir;
+               this.quantidade++;
+               System.out.println("Elemento inserido com sucesso");
+               return;
+           }else if( atual.getProximo() == Elemento ){
+               ElementoAInserir.setProximo(atual.getProximo());
+               atual.setProximo(ElementoAInserir);
+               this.quantidade++;
+               System.out.println("Elemento inserido com sucesso");
+               return;
+           }else if( atual.getProximo() == null ){
+               System.out.println("Elemento não encontrado");
+               return;
+           }else{
+               atual = atual.getProximo();
+           }
+       }
+   }
+\end{lstlisting}
+
+\section{Questão 2}
+\section{Questão 3}
+\section{Questão 4}
+\section{Questão 5}
+\section{Questão 6}
+\section{Questão 7}
+\section{Questão 8}
+\section{Questão 9}
+\section{Questão 10}
+\section{Questão 11}
+\section{Questão 12}
+\section{Questão 30}
+\section{Questão 31}
+\section{Questão 32}
+
+
+\end{document}
