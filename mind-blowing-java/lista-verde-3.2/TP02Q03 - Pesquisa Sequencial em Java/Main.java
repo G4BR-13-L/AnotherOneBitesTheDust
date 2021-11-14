@@ -19,48 +19,77 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+        long startTime = System.nanoTime();
+        int comparacoes = 0;
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in, Charset.forName("UTF-8")));
         PrintStream stdout = new PrintStream(System.out, true, "UTF-8");
 
-        
         String[] listaNomeDeSeries = new String[1000];
-        int index = 0;
+        int firstIndex = 0;
         do {
-            listaNomeDeSeries[index] = stdin.readLine();
-            index++;
-        } while (isFim(listaDeSeries[index - 1]) == false);
-        index--;
+            listaNomeDeSeries[firstIndex] = stdin.readLine();
+            firstIndex++;
+            comparacoes++;
+        } while (isFim(listaNomeDeSeries[firstIndex - 1]) == false);
+        firstIndex--;
 
-        Serie[] listaDadosSeries = new Serie[index + 1];
-        for( int i = 0 ; i < index ; i++ ){
-            listaDadosSeries[i].buscarDados(listaNomeDeSeries[i]);
+        Serie[] listaDadosSeries = new Serie[firstIndex + 1];
+        for (int i = 0; i < firstIndex; i++) {
+            comparacoes++;
+            Serie novaSerie = new Serie();
+            novaSerie.buscarDados(listaNomeDeSeries[i]);
+            listaDadosSeries[i] = novaSerie;
+        }
+
+        int secondIndex = 0;
+        String[] nomeSerie = new String[1000];
+        do {
+            nomeSerie[secondIndex] = stdin.readLine();
+            secondIndex++;
+            comparacoes++;
+        } while (isFim(nomeSerie[secondIndex - 1]) == false);
+        secondIndex--;
+
+        for (int i = 0; i < secondIndex; i++) {
+            comparacoes++;
+            for (int j = 0; j < firstIndex; j++) {
+                comparacoes++;
+                if (nomeSerie[i].equals(listaDadosSeries[j].getNome())) {
+                    System.out.println("SIM");
+                    comparacoes++;
+                    j += firstIndex;
+                } else if (j == firstIndex - 1) {
+                    comparacoes++;
+                    System.out.println("NÃO");
+                }
+            }
         }
 
         stdin.close();
         stdout.close();
-    }
-    public static String lerArquivoHTML(String arquivoHtml) throws FileNotFoundException {
-        String caminhoDoArquivo = "../series/" + arquivoHtml;
-        StringBuilder html = new StringBuilder();
-        FileReader fr = new FileReader(caminhoDoArquivo);
-        try {
-            BufferedReader br = new BufferedReader(fr);
-            String val;
-            while ((val = br.readLine()) != null) {
-                html.append(val);
-            }
-            String result = html.toString();
-            br.close();
-            return result;
-        } catch (Exception ex) {
-            return ex.getMessage();
+        for ( int k = 0 ; k < firstIndex ; k++ ){
+            comparacoes+=listaDadosSeries[k].comparacoes;
         }
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000;
+        String stringDeLog = "739704\t" + duration + "ms\t"+comparacoes;
+        escreverLog(stringDeLog);
+
     }
+
     public static boolean isFim(String s) {
         return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
+
+    public static void escreverLog(String logString) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_sequencial.txt"));
+        writer.write(logString);
+
+        writer.close();
+    }
 }
-class Serie{
+
+class Serie {
     private String nome;
     private String formato;
     private String duracao;
@@ -70,87 +99,118 @@ class Serie{
     private String streaming;
     private int temporadas;
     private int episodios;
+    public int comparacoes = 0;
 
-    public void printarDadosSerie(){
-        System.out.println(this.nome + " " + this.formato + " " + this.duracao + " " + this.pais + " " + this.idioma + " " + this.broadcaster + " " + this.streaming + " " + this.temporadas + " " + this.episodios);
+    public String getNome() {
+        return this.nome;
     }
-    public String qualONomeDaSerie(String fileName){
+
+    public void printarDadosSerie() {
+        System.out.println(this.nome + " " + this.formato + " " + this.duracao + " " + this.pais + " " + this.idioma
+                + " " + this.broadcaster + " " + this.streaming + " " + this.temporadas + " " + this.episodios);
+    }
+
+    public String qualONomeDaSerie(String fileName) {
         String resp = "";
-        for(int i = 0; i < fileName.length(); i++){
-            if(fileName.charAt(i)  == '_'){
+        for (int i = 0; i < fileName.length(); i++) {
+            this.comparacoes++;
+            if (fileName.charAt(i) == '_') {
                 resp += ' ';
             } else {
                 resp += fileName.charAt(i);
             }
         }
-        return resp.substring(0, resp.length()-5);
+        return resp.substring(0, resp.length() - 5);
     }
-    public int converterParaInteiro(String linha){
+
+    public int converterParaInteiro(String linha) {
         String resposta = "";
-        for(int i = 0; i < linha.length(); i++){
-            if(linha.charAt(i) >= '0' && linha.charAt(i) <= '9'){ 
+        for (int i = 0; i < linha.length(); i++) {
+            this.comparacoes++;
+            if (linha.charAt(i) >= '0' && linha.charAt(i) <= '9') {
+                this.comparacoes += 2;
                 resposta += linha.charAt(i);
-            } else { 
+            } else {
                 i = linha.length();
+                this.comparacoes++;
             }
         }
-        return Integer.parseInt(resposta); 
+        return Integer.parseInt(resposta);
     }
-    public String removerTagsHTML(String linha){
+
+    public String removerTagsHTML(String linha) {
         String resposta = "";
         int i = 0;
-        while(i < linha.length()){
-            if(linha.charAt(i) == '<'){ 
+        while (i < linha.length()) {
+            this.comparacoes++;
+            if (linha.charAt(i) == '<') {
+                this.comparacoes++;
                 i++;
-                while(linha.charAt(i) != '>') i++; 
-            } else if(linha.charAt(i) == '&'){ 
+                while (linha.charAt(i) != '>') {
+                    this.comparacoes++;
+                    i++;
+                }
+            } else if (linha.charAt(i) == '&') {
+                this.comparacoes++;
                 i++;
-                while(linha.charAt(i) != ';') i++;
-            } else { 
+                while (linha.charAt(i) != ';') {
+                    this.comparacoes++;
+                    i++;
+                }
+            } else {
                 resposta += linha.charAt(i);
             }
             i++;
         }
-        if(resposta.charAt(0) == ' '){
+        if (resposta.charAt(0) == ' ') {
             resposta = resposta.substring(1);
         }
         return resposta;
     }
-    public void buscarDados(String fileName){
+
+    public void buscarDados(String fileName) {
         String file = "/tmp/series/" + fileName;
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
             this.nome = qualONomeDaSerie(fileName);
 
-            while(!br.readLine().contains("Formato"));
+            while (!br.readLine().contains("Formato"))
+                this.comparacoes++;
             this.formato = removerTagsHTML(br.readLine());
 
-            while(!br.readLine().contains("Duração"));
+            while (!br.readLine().contains("Duração"))
+                this.comparacoes++;
             this.duracao = removerTagsHTML(br.readLine());
 
-            while(!br.readLine().contains("País de origem"));
+            while (!br.readLine().contains("País de origem"))
+                this.comparacoes++;
             this.pais = removerTagsHTML(br.readLine());
 
-            while(!br.readLine().contains("Idioma original"));
+            while (!br.readLine().contains("Idioma original"))
+                this.comparacoes++;
             this.idioma = removerTagsHTML(br.readLine());
 
-            while(!br.readLine().contains("Emissora de televisão"));
+            while (!br.readLine().contains("Emissora de televisão"))
+                this.comparacoes++;
             this.broadcaster = removerTagsHTML(br.readLine());
 
-            while(!br.readLine().contains("Transmissão original"));
+            while (!br.readLine().contains("Transmissão original"))
+                this.comparacoes++;
             this.streaming = removerTagsHTML(br.readLine());
 
-            while(!br.readLine().contains("N.º de temporadas"));
+            while (!br.readLine().contains("N.º de temporadas"))
+                this.comparacoes++;
             this.temporadas = converterParaInteiro(removerTagsHTML(br.readLine()));
 
-            while(!br.readLine().contains("N.º de episódios"));
+            while (!br.readLine().contains("N.º de episódios"))
+                this.comparacoes++;
             this.episodios = converterParaInteiro(removerTagsHTML(br.readLine()));
-        
-            br.close();         
-        } catch(FileNotFoundException e) {
-            System.out.println("Não é possível abrir o arquivo'" + fileName + "'");                
-        } catch(IOException e) {
+
+            br.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Não é possível abrir o arquivo'" + fileName + "'");
+        } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo'" + fileName + "'");
         }
     }
