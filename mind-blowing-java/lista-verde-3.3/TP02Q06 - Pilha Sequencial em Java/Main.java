@@ -159,7 +159,7 @@ class Serie {
     }
 
     public void buscarDados(String fileName) {
-        String file = "../series/" + fileName;
+        String file = "/tmp/series/" + fileName;
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);

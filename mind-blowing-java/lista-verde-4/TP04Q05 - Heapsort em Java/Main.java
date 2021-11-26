@@ -41,18 +41,15 @@ public class Main {
 
         listaManipulavel.adicionarSeries(listaDadosSeries);
         listaManipulavel.quantidade--;
-        listaManipulavel.sort();
-        listaManipulavel.mostrar();
-
-        /*for (int j = 0; j < listaManipulavel.quantidade; j++) {
-            listaManipulavel.series[j].printarDadosSerie();
-        }*/
+        listaManipulavel.heapSort(listaManipulavel.series);
+        //listaManipulavel.mostrar();
 
         stdin.close();
         stdout.close();
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;
-        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort +"\t"+duration+"ms";
+        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort
+                + "\t" + duration + "ms";
         escreverLog(stringDeLog);
 
     }
@@ -62,7 +59,7 @@ public class Main {
     }
 
     public static void escreverLog(String logString) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_selecao.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_heapsort.txt"));
         writer.write(logString);
 
         writer.close();
@@ -141,7 +138,7 @@ class Serie {
     }
 
     public void buscarDados(String fileName) {
-        String file = "/tmp/series/" + fileName;
+        String file = "../series/" + fileName;
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
@@ -293,57 +290,7 @@ class Lista {
         }
     }
 
-    public void II(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i > 0; i--) {
-            this.series[i] = this.series[i - 1];
-        }
-        this.series[0] = novaSerie;
-        this.quantidade++;
-
-    }
-
-    public void IF(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        this.series[this.quantidade] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void I(String nomeArquivoSerie, int posicao) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i >= posicao; i--) {
-            this.series[i + 1] = this.series[i];
-        }
-        this.series[posicao] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void RI() {
-        this.removidas[this.quantidadeRemovidas] = this.series[0];
-        this.quantidadeRemovidas++;
-        for (int i = 0; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
-
-    public void RF() {
-        this.removidas[this.quantidadeRemovidas] = this.series[this.quantidade - 1];
-        this.quantidadeRemovidas++;
-        this.quantidade--;
-    }
-
-    public void R(int posicao) throws Exception {
-        this.removidas[this.quantidadeRemovidas] = this.series[posicao];
-        this.quantidadeRemovidas++;
-        for (int i = posicao; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
+    
 
     public void swap(int i, int j) {
         Serie temp = this.series[i];
@@ -354,39 +301,79 @@ class Lista {
     public static String blank(String s) {
         String resp = "";
         for (int i = 0; i < s.length(); i++) {
-          char x = s.charAt(i);
-          if (x != ' ') {
-            resp += x;
-          }
+            char x = s.charAt(i);
+            if (x != ' ') {
+                resp += x;
+            }
         }
         return resp;
-      }
-      
-      public void sort() {
-        for (int i = 0; i < (this.quantidade - 1); i++) {
-          int menor = i;
-          for (int j = (i + 1); j < this.quantidade; j++) {
-            this.comparacoesSort++;
-            if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) > 0) {
-              menor = j;
-              this.movimentacoesSort++;
-            }
-            else {
-              this.comparacoesSort++;
-              if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) == 0) {
-                this.comparacoesSort++;
-                if (blank(series[menor].getNome()).compareTo(blank(series[j].getNome())) > 0)
-                  menor = j;
-                  this.comparacoesSort++;
-              }
-            }
-          }
-          swap(menor, i);
+    }
+
+    public void heapSort(Serie[] array) {
+        if (this.quantidade == 0) {
+            return;
         }
-      }
-      public void mostrar() {
+
+        int length = this.quantidade;
+
+        // Moving from the first element that isn't a leaf towards the root
+        
+        for (int i = length / 2 - 1; i >= 0; i--) {
+            this.heapifyFormat(array, length, i);
+        }
+        
+        for (int i = length - 1; i >= 0; i--) {
+            Serie tmp = array[0];
+            array[0] = array[i];
+            array[i] = tmp;
+            this.movimentacoesSort++;
+            this.heapifyFormat(array, i, 0);
+        }
+        
         for (int j = 0; j < this.quantidade; j++) {
-            this.series[j].printarDadosSerie();
+            array[j].printarDadosSerie();
+        }
+    }
+
+    public void heapifyFormat(Serie[] series, int length, int i) {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int largest = i;
+        
+
+        if (left < length && blank(series[left].getFormato()).compareTo(blank(series[largest].getFormato())) > 0) {
+            largest = left;
+            this.comparacoesSort++;
+            this.movimentacoesSort++;
+        }else if (left < length && blank(series[left].getFormato()).compareTo(blank(series[largest].getFormato())) == 0) {
+            this.comparacoesSort++;
+            if (left < length && blank(series[left].getNome()).compareTo(blank(series[largest].getNome())) > 0) {
+                this.comparacoesSort++;
+                this.movimentacoesSort++;
+                largest = left;
+            }
+        }
+        
+        if (right < length && blank(series[right].getFormato()).compareTo(blank(series[largest].getFormato())) > 0) {
+            largest = right;
+            this.comparacoesSort++;
+            this.movimentacoesSort++;
+        }else if (right < length && blank(series[right].getFormato()).compareTo(blank(series[largest].getFormato())) == 0) {
+            this.comparacoesSort++;
+            this.movimentacoesSort++;
+            if (right < length && blank(series[right].getNome()).compareTo(blank(series[largest].getNome())) > 0) {
+                largest = right;
+                this.movimentacoesSort++;
+                this.comparacoesSort++;
+            }
+        }
+        if (largest != i) {
+            this.comparacoesSort++;
+            Serie tmp = series[i];
+            series[i] = series[largest];
+            series[largest] = tmp;
+            this.movimentacoesSort++;
+            heapifyFormat(series, length, largest);
         }
     }
 

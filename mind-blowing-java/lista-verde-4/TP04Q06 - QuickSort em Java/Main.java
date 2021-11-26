@@ -41,18 +41,15 @@ public class Main {
 
         listaManipulavel.adicionarSeries(listaDadosSeries);
         listaManipulavel.quantidade--;
-        listaManipulavel.sort();
+        listaManipulavel.quickSort( 0, listaManipulavel.quantidade - 1);
         listaManipulavel.mostrar();
-
-        /*for (int j = 0; j < listaManipulavel.quantidade; j++) {
-            listaManipulavel.series[j].printarDadosSerie();
-        }*/
 
         stdin.close();
         stdout.close();
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;
-        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort +"\t"+duration+"ms";
+        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort
+                + "\t" + duration + "ms";
         escreverLog(stringDeLog);
 
     }
@@ -62,7 +59,7 @@ public class Main {
     }
 
     public static void escreverLog(String logString) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_selecao.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_bolha.txt"));
         writer.write(logString);
 
         writer.close();
@@ -141,7 +138,7 @@ class Serie {
     }
 
     public void buscarDados(String fileName) {
-        String file = "/tmp/series/" + fileName;
+        String file = "../series/" + fileName;
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
@@ -158,11 +155,11 @@ class Serie {
 
             while (!br.readLine().contains("País de origem"))
                 ;
-            this.pais = (removerTagsHTML(br.readLine())).trim();
+            this.pais = (removerTagsHTML(br.readLine()));
 
             while (!br.readLine().contains("Idioma original"))
                 ;
-            this.idioma = (removerTagsHTML(br.readLine())).trim();
+            this.idioma = (removerTagsHTML(br.readLine()));
 
             while (!br.readLine().contains("Emissora de televisão"))
                 ;
@@ -293,58 +290,6 @@ class Lista {
         }
     }
 
-    public void II(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i > 0; i--) {
-            this.series[i] = this.series[i - 1];
-        }
-        this.series[0] = novaSerie;
-        this.quantidade++;
-
-    }
-
-    public void IF(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        this.series[this.quantidade] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void I(String nomeArquivoSerie, int posicao) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i >= posicao; i--) {
-            this.series[i + 1] = this.series[i];
-        }
-        this.series[posicao] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void RI() {
-        this.removidas[this.quantidadeRemovidas] = this.series[0];
-        this.quantidadeRemovidas++;
-        for (int i = 0; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
-
-    public void RF() {
-        this.removidas[this.quantidadeRemovidas] = this.series[this.quantidade - 1];
-        this.quantidadeRemovidas++;
-        this.quantidade--;
-    }
-
-    public void R(int posicao) throws Exception {
-        this.removidas[this.quantidadeRemovidas] = this.series[posicao];
-        this.quantidadeRemovidas++;
-        for (int i = posicao; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
-
     public void swap(int i, int j) {
         Serie temp = this.series[i];
         this.series[i] = this.series[j];
@@ -354,37 +299,70 @@ class Lista {
     public static String blank(String s) {
         String resp = "";
         for (int i = 0; i < s.length(); i++) {
-          char x = s.charAt(i);
-          if (x != ' ') {
-            resp += x;
-          }
+            char x = s.charAt(i);
+            if (x != ' ') {
+                resp += x;
+            }
         }
         return resp;
-      }
-      
-      public void sort() {
-        for (int i = 0; i < (this.quantidade - 1); i++) {
-          int menor = i;
-          for (int j = (i + 1); j < this.quantidade; j++) {
-            this.comparacoesSort++;
-            if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) > 0) {
-              menor = j;
-              this.movimentacoesSort++;
-            }
-            else {
-              this.comparacoesSort++;
-              if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) == 0) {
-                this.comparacoesSort++;
-                if (blank(series[menor].getNome()).compareTo(blank(series[j].getNome())) > 0)
-                  menor = j;
-                  this.comparacoesSort++;
-              }
-            }
-          }
-          swap(menor, i);
+    }
+
+    public int comparar( Serie A, Serie B){
+        if(A.getPais().trim().equals(B.getPais().trim())){
+            return A.getNome().compareTo(B.getNome());
         }
-      }
-      public void mostrar() {
+        return A.getPais().trim().compareTo(B.getPais().trim());
+    } 
+
+
+    public void quickSort( int inicio, int fim) {
+        if(fim > inicio) {
+          int indexPivo = dividir( inicio, fim);
+          quickSort(inicio, indexPivo - 1);
+          quickSort(indexPivo + 1, fim);
+        }
+    }
+
+    
+    public int dividir( int inicio, int fim) {
+        int pontEsq, pontDir = fim+1;
+        pontEsq = inicio - 1;
+        Serie pivo = this.series[inicio];
+
+        while (true) {
+            /*while (pontEsq <= pontDir && comparar(vetor[pontEsq], pivo) <= 0 () ) {
+                pontEsq++;
+            }*/
+
+            do{
+                pontEsq++;
+            }while(comparar(this.series[ pontEsq ], pivo ) < 0);
+
+            do{
+                pontDir--;
+            }while(comparar(this.series[ pontDir ], pivo ) > 0);
+            
+            if( pontEsq >= pontDir ){
+                return pontDir;
+            }
+            swap(pontEsq, pontDir);
+            /**while( vetor[pontEsq].getPais().compareTo( pivo.getPais() ) < 0 || ( vetor[pontEsq].getPais().compareTo( pivo.getPais() ) == 0 &&  vetor[pontEsq].getNome().compareTo( pivo.getNome() ) < 0 )){
+                pontEsq++;
+            }
+
+            while( vetor[pontDir].getPais().compareTo( pivo.getPais() ) > 0 || ( vetor[pontDir].getPais().compareTo( pivo.getPais() ) == 0 &&  vetor[pontDir].getNome().compareTo( pivo.getNome() ) > 0 )){
+                pontDir++;
+            }*/
+
+           /* while (pontDir >= pontEsq && comparar(vetor[pontEsq], pivo) > 0) {
+                pontDir--;
+            }*/
+            
+        }
+    }
+
+
+    public void mostrar() {
         for (int j = 0; j < this.quantidade; j++) {
             this.series[j].printarDadosSerie();
         }

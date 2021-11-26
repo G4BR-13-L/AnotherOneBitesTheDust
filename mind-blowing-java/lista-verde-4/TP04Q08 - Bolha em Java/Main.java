@@ -41,18 +41,15 @@ public class Main {
 
         listaManipulavel.adicionarSeries(listaDadosSeries);
         listaManipulavel.quantidade--;
-        listaManipulavel.sort();
+        listaManipulavel.bubbleSort();
         listaManipulavel.mostrar();
-
-        /*for (int j = 0; j < listaManipulavel.quantidade; j++) {
-            listaManipulavel.series[j].printarDadosSerie();
-        }*/
 
         stdin.close();
         stdout.close();
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;
-        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort +"\t"+duration+"ms";
+        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort
+                + "\t" + duration + "ms";
         escreverLog(stringDeLog);
 
     }
@@ -62,7 +59,7 @@ public class Main {
     }
 
     public static void escreverLog(String logString) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_selecao.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_bolha.txt"));
         writer.write(logString);
 
         writer.close();
@@ -158,11 +155,11 @@ class Serie {
 
             while (!br.readLine().contains("País de origem"))
                 ;
-            this.pais = (removerTagsHTML(br.readLine())).trim();
+            this.pais = (removerTagsHTML(br.readLine()));
 
             while (!br.readLine().contains("Idioma original"))
                 ;
-            this.idioma = (removerTagsHTML(br.readLine())).trim();
+            this.idioma = (removerTagsHTML(br.readLine()));
 
             while (!br.readLine().contains("Emissora de televisão"))
                 ;
@@ -293,58 +290,6 @@ class Lista {
         }
     }
 
-    public void II(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i > 0; i--) {
-            this.series[i] = this.series[i - 1];
-        }
-        this.series[0] = novaSerie;
-        this.quantidade++;
-
-    }
-
-    public void IF(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        this.series[this.quantidade] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void I(String nomeArquivoSerie, int posicao) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i >= posicao; i--) {
-            this.series[i + 1] = this.series[i];
-        }
-        this.series[posicao] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void RI() {
-        this.removidas[this.quantidadeRemovidas] = this.series[0];
-        this.quantidadeRemovidas++;
-        for (int i = 0; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
-
-    public void RF() {
-        this.removidas[this.quantidadeRemovidas] = this.series[this.quantidade - 1];
-        this.quantidadeRemovidas++;
-        this.quantidade--;
-    }
-
-    public void R(int posicao) throws Exception {
-        this.removidas[this.quantidadeRemovidas] = this.series[posicao];
-        this.quantidadeRemovidas++;
-        for (int i = posicao; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
-
     public void swap(int i, int j) {
         Serie temp = this.series[i];
         this.series[i] = this.series[j];
@@ -354,37 +299,34 @@ class Lista {
     public static String blank(String s) {
         String resp = "";
         for (int i = 0; i < s.length(); i++) {
-          char x = s.charAt(i);
-          if (x != ' ') {
-            resp += x;
-          }
+            char x = s.charAt(i);
+            if (x != ' ') {
+                resp += x;
+            }
         }
         return resp;
-      }
-      
-      public void sort() {
-        for (int i = 0; i < (this.quantidade - 1); i++) {
-          int menor = i;
-          for (int j = (i + 1); j < this.quantidade; j++) {
-            this.comparacoesSort++;
-            if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) > 0) {
-              menor = j;
-              this.movimentacoesSort++;
+    }
+
+    public void bubbleSort() {
+        for (int i = 0; i < this.quantidade; i++) {
+            for (int j = 0; j < this.quantidade; j++) {
+                if (this.series[j].getTemporadas() > this.series[i].getTemporadas()) {
+                    this.comparacoesSort++;
+                    this.movimentacoesSort++;
+                    this.swap(i, j);
+                } else if (this.series[j].getTemporadas() == this.series[i].getTemporadas()) {
+                    this.comparacoesSort++;
+                    if (blank(this.series[j].getNome()).compareTo(blank(this.series[i].getNome())) > 0) {
+                        this.swap(i, j);
+                        this.comparacoesSort++;
+                        this.movimentacoesSort++;
+                    }
+                }
             }
-            else {
-              this.comparacoesSort++;
-              if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) == 0) {
-                this.comparacoesSort++;
-                if (blank(series[menor].getNome()).compareTo(blank(series[j].getNome())) > 0)
-                  menor = j;
-                  this.comparacoesSort++;
-              }
-            }
-          }
-          swap(menor, i);
         }
-      }
-      public void mostrar() {
+    }
+
+    public void mostrar() {
         for (int j = 0; j < this.quantidade; j++) {
             this.series[j].printarDadosSerie();
         }

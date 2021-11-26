@@ -37,22 +37,31 @@ public class Main {
             novaSerie.buscarDados(listaNomeDeSeries[i]);
             listaDadosSeries[i] = novaSerie;
         }
-        Lista listaManipulavel = new Lista();
 
-        listaManipulavel.adicionarSeries(listaDadosSeries);
-        listaManipulavel.quantidade--;
-        listaManipulavel.sort();
-        listaManipulavel.mostrar();
+        int quantidadeDeInstrucoes = 0;
+        quantidadeDeInstrucoes = Integer.parseInt(stdin.readLine());
+        Fila filaManipulavel = new Fila();
 
-        /*for (int j = 0; j < listaManipulavel.quantidade; j++) {
-            listaManipulavel.series[j].printarDadosSerie();
-        }*/
+        for (int h = 0; h < listaDadosSeries.length; h++) {
+            filaManipulavel.enfileirar(listaDadosSeries[h]);
+        }
 
+        for (int s = 0; s < quantidadeDeInstrucoes; s++) {
+            String instrucoesEString = stdin.readLine();
+            if (instrucoesEString.charAt(0) == 'I') {
+
+                Serie novaSerie = new Serie();
+                novaSerie.buscarDados(instrucoesEString.substring(2));
+                filaManipulavel.enfileirar(novaSerie);
+            } else {
+                filaManipulavel.desenfileirar();
+            }
+        }
         stdin.close();
         stdout.close();
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;
-        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort +"\t"+duration+"ms";
+        String stringDeLog = "739704\t" + duration + "ms";
         escreverLog(stringDeLog);
 
     }
@@ -62,7 +71,7 @@ public class Main {
     }
 
     public static void escreverLog(String logString) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_selecao.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt"));
         writer.write(logString);
 
         writer.close();
@@ -141,7 +150,7 @@ class Serie {
     }
 
     public void buscarDados(String fileName) {
-        String file = "/tmp/series/" + fileName;
+        String file = "../series/" + fileName;
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
@@ -158,11 +167,11 @@ class Serie {
 
             while (!br.readLine().contains("País de origem"))
                 ;
-            this.pais = (removerTagsHTML(br.readLine())).trim();
+            this.pais = removerTagsHTML(br.readLine());
 
             while (!br.readLine().contains("Idioma original"))
                 ;
-            this.idioma = (removerTagsHTML(br.readLine())).trim();
+            this.idioma = removerTagsHTML(br.readLine());
 
             while (!br.readLine().contains("Emissora de televisão"))
                 ;
@@ -257,137 +266,61 @@ class Serie {
     }
 }
 
-class Lista {
-    public Serie[] series;
-    public int quantidade;
-    public Serie[] removidas;
-    public int quantidadeRemovidas = 0;
-    public int comparacoesSort;
-    public int movimentacoesSort;
+class Fila {
+    public Serie[] seriesIniciais;
+    public Serie[] filaSeries;
+    public int quantidadeDeSeries = 0;
+    private int inicio;
+    private int fim;
 
-    Lista(int tamanho) {
-        this.quantidade = 0;
-        this.series = new Serie[tamanho];
-        this.removidas = new Serie[tamanho * 2];
-        this.comparacoesSort = 0;
-        this.movimentacoesSort = 0;
+    Fila() {
+        this.seriesIniciais = new Serie[500];
+        this.filaSeries = new Serie[6];
+        
+        this.inicio = 0;
+        this.fim = 0;
     }
 
-    Lista() {
-        this(500);
+    public void enfileirar(Serie novaSerie) throws Exception {
+        if (((this.fim + 1) % this.filaSeries.length) == this.inicio) {
+            this.desenfileirar();
+            this.filaSeries[this.fim] = novaSerie;
+            this.fim = (this.fim + 1) % this.filaSeries.length;
+        } else {
+            this.filaSeries[this.fim] = novaSerie;
+            this.fim = (this.fim + 1) % this.filaSeries.length;
+        }
+        this.quantidadeDeSeries++;
+        this.media();
     }
 
-    public void adicionarSeries(Serie[] seriesIniciais) throws Exception {
-        if (this.series.length > seriesIniciais.length) {
-            for (int i = 0; i < seriesIniciais.length; i++) {
-                this.series[i] = seriesIniciais[i];
+    public void desenfileirar() throws Exception {
+        if (this.inicio == this.fim) {
+            throw new Exception("ERRO");
+        } else {
+            this.filaSeries[this.inicio] = null;
+            this.inicio = (this.inicio + 1) % this.filaSeries.length;
+        }
+        this.quantidadeDeSeries--;
+
+    }
+
+    public void media() {
+        float media;
+        int soma = 0;
+
+        for (int i = 0; i < this.filaSeries.length; i++) {
+            if( this.filaSeries[i] != null ){
+                soma += this.filaSeries[i].getTemporadas();
             }
-            this.quantidade = seriesIniciais.length;
-        } else if (this.series.length == seriesIniciais.length) {
-            for (int i = 0; i < seriesIniciais.length; i++) {
-                this.series[i] = seriesIniciais[i];
-            }
-            this.quantidade = seriesIniciais.length;
-        } else if (this.series.length < seriesIniciais.length) {
-            throw new Exception("ERRO: O array de series é maior do que a lista");
         }
+
+        media = (float)soma / (float)this.quantidadeDeSeries;
+        System.out.println(Math.round(media));
+        //System.out.println(media);
+
+        //System.out.println("Fim: "+this.filaSeries[this.inicio].getNome()+"\nSoma: "+soma+"\nQuantidade: "+this.quantidadeDeSeries+"\nMedia: "+media+"\n---");
     }
 
-    public void II(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i > 0; i--) {
-            this.series[i] = this.series[i - 1];
-        }
-        this.series[0] = novaSerie;
-        this.quantidade++;
-
-    }
-
-    public void IF(String nomeArquivoSerie) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        this.series[this.quantidade] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void I(String nomeArquivoSerie, int posicao) throws Exception {
-        Serie novaSerie = new Serie();
-        novaSerie.buscarDados(nomeArquivoSerie);
-        for (int i = this.quantidade; i >= posicao; i--) {
-            this.series[i + 1] = this.series[i];
-        }
-        this.series[posicao] = novaSerie;
-        this.quantidade++;
-    }
-
-    public void RI() {
-        this.removidas[this.quantidadeRemovidas] = this.series[0];
-        this.quantidadeRemovidas++;
-        for (int i = 0; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
-
-    public void RF() {
-        this.removidas[this.quantidadeRemovidas] = this.series[this.quantidade - 1];
-        this.quantidadeRemovidas++;
-        this.quantidade--;
-    }
-
-    public void R(int posicao) throws Exception {
-        this.removidas[this.quantidadeRemovidas] = this.series[posicao];
-        this.quantidadeRemovidas++;
-        for (int i = posicao; i < this.quantidade; i++) {
-            this.series[i] = this.series[i + 1];
-        }
-        this.quantidade--;
-    }
-
-    public void swap(int i, int j) {
-        Serie temp = this.series[i];
-        this.series[i] = this.series[j];
-        this.series[j] = temp;
-    }
-
-    public static String blank(String s) {
-        String resp = "";
-        for (int i = 0; i < s.length(); i++) {
-          char x = s.charAt(i);
-          if (x != ' ') {
-            resp += x;
-          }
-        }
-        return resp;
-      }
-      
-      public void sort() {
-        for (int i = 0; i < (this.quantidade - 1); i++) {
-          int menor = i;
-          for (int j = (i + 1); j < this.quantidade; j++) {
-            this.comparacoesSort++;
-            if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) > 0) {
-              menor = j;
-              this.movimentacoesSort++;
-            }
-            else {
-              this.comparacoesSort++;
-              if (blank(series[menor].getPais()).compareTo(blank(series[j].getPais())) == 0) {
-                this.comparacoesSort++;
-                if (blank(series[menor].getNome()).compareTo(blank(series[j].getNome())) > 0)
-                  menor = j;
-                  this.comparacoesSort++;
-              }
-            }
-          }
-          swap(menor, i);
-        }
-      }
-      public void mostrar() {
-        for (int j = 0; j < this.quantidade; j++) {
-            this.series[j].printarDadosSerie();
-        }
-    }
 
 }
