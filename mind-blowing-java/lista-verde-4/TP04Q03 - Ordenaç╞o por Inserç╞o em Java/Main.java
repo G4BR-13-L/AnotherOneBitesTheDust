@@ -41,8 +41,10 @@ public class Main {
 
         listaManipulavel.adicionarSeries(listaDadosSeries);
         listaManipulavel.quantidade--;
-        listaManipulavel.quickSort( 0, listaManipulavel.quantidade - 1);
+        listaManipulavel.insercaoSort();
         listaManipulavel.mostrar();
+
+       
 
         stdin.close();
         stdout.close();
@@ -59,7 +61,7 @@ public class Main {
     }
 
     public static void escreverLog(String logString) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_quicksort.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_insercao.txt"));
         writer.write(logString);
 
         writer.close();
@@ -155,11 +157,11 @@ class Serie {
 
             while (!br.readLine().contains("País de origem"))
                 ;
-            this.pais = (removerTagsHTML(br.readLine()));
+            this.pais = (removerTagsHTML(br.readLine())).trim();
 
             while (!br.readLine().contains("Idioma original"))
                 ;
-            this.idioma = (removerTagsHTML(br.readLine()));
+            this.idioma = (removerTagsHTML(br.readLine())).trim();
 
             while (!br.readLine().contains("Emissora de televisão"))
                 ;
@@ -290,6 +292,58 @@ class Lista {
         }
     }
 
+    public void II(String nomeArquivoSerie) throws Exception {
+        Serie novaSerie = new Serie();
+        novaSerie.buscarDados(nomeArquivoSerie);
+        for (int i = this.quantidade; i > 0; i--) {
+            this.series[i] = this.series[i - 1];
+        }
+        this.series[0] = novaSerie;
+        this.quantidade++;
+
+    }
+
+    public void IF(String nomeArquivoSerie) throws Exception {
+        Serie novaSerie = new Serie();
+        novaSerie.buscarDados(nomeArquivoSerie);
+        this.series[this.quantidade] = novaSerie;
+        this.quantidade++;
+    }
+
+    public void I(String nomeArquivoSerie, int posicao) throws Exception {
+        Serie novaSerie = new Serie();
+        novaSerie.buscarDados(nomeArquivoSerie);
+        for (int i = this.quantidade; i >= posicao; i--) {
+            this.series[i + 1] = this.series[i];
+        }
+        this.series[posicao] = novaSerie;
+        this.quantidade++;
+    }
+
+    public void RI() {
+        this.removidas[this.quantidadeRemovidas] = this.series[0];
+        this.quantidadeRemovidas++;
+        for (int i = 0; i < this.quantidade; i++) {
+            this.series[i] = this.series[i + 1];
+        }
+        this.quantidade--;
+    }
+
+    public void RF() {
+        this.removidas[this.quantidadeRemovidas] = this.series[this.quantidade - 1];
+        this.quantidadeRemovidas++;
+        this.quantidade--;
+    }
+
+    public void R(int posicao) throws Exception {
+        this.removidas[this.quantidadeRemovidas] = this.series[posicao];
+        this.quantidadeRemovidas++;
+        for (int i = posicao; i < this.quantidade; i++) {
+            this.series[i] = this.series[i + 1];
+        }
+        this.quantidade--;
+    }
+
     public void swap(int i, int j) {
         Serie temp = this.series[i];
         this.series[i] = this.series[j];
@@ -307,60 +361,37 @@ class Lista {
         return resp;
     }
 
-    public int comparar( Serie A, Serie B){
-        if(A.getPais().trim().equals(B.getPais().trim())){
-            return A.getNome().compareTo(B.getNome());
-        }
-        return A.getPais().trim().compareTo(B.getPais().trim());
-    } 
-
-
-    public void quickSort( int inicio, int fim) {
-        if(fim > inicio) {
-          int indexPivo = dividir( inicio, fim);
-          quickSort(inicio, indexPivo - 1);
-          quickSort(indexPivo + 1, fim);
-        }
-    }
-
     
-    public int dividir( int inicio, int fim) {
-        int pontEsq, pontDir = fim+1;
-        pontEsq = inicio - 1;
-        Serie pivo = this.series[inicio];
+    public void insercaoSort() {
+        for (int i = 1; i < this.quantidade; i++) {
+            this.comparacoesSort++;
+            Serie tmp = this.series[i];
+            this.movimentacoesSort++;
+            int j = i - 1;
 
-        while (true) {
-            /*while (pontEsq <= pontDir && comparar(vetor[pontEsq], pivo) <= 0 () ) {
-                pontEsq++;
-            }*/
-
-            do{
-                pontEsq++;
-            }while(comparar(this.series[ pontEsq ], pivo ) < 0);
-
-            do{
-                pontDir--;
-            }while(comparar(this.series[ pontDir ], pivo ) > 0);
-            
-            if( pontEsq >= pontDir ){
-                return pontDir;
+            while ((j >= 0) && comparaNomeEPais(this.series[j], tmp) ) {
+                this.comparacoesSort++;
+                this.series[j + 1] = this.series[j];
+                this.movimentacoesSort++;
+                j--;
             }
-            swap(pontEsq, pontDir);
-            /**while( vetor[pontEsq].getPais().compareTo( pivo.getPais() ) < 0 || ( vetor[pontEsq].getPais().compareTo( pivo.getPais() ) == 0 &&  vetor[pontEsq].getNome().compareTo( pivo.getNome() ) < 0 )){
-                pontEsq++;
-            }
-
-            while( vetor[pontDir].getPais().compareTo( pivo.getPais() ) > 0 || ( vetor[pontDir].getPais().compareTo( pivo.getPais() ) == 0 &&  vetor[pontDir].getNome().compareTo( pivo.getNome() ) > 0 )){
-                pontDir++;
-            }*/
-
-           /* while (pontDir >= pontEsq && comparar(vetor[pontEsq], pivo) > 0) {
-                pontDir--;
-            }*/
-            
+            this.series[j + 1] = tmp;
+            this.movimentacoesSort++;
         }
     }
 
+    public boolean comparaNomeEPais(Serie serie, Serie tempSerie){
+        if((serie.getIdioma()).trim().compareTo((tempSerie.getIdioma()).trim()) > 0 ){
+            return true;
+        }else if( (serie.getIdioma()).trim().compareTo((tempSerie.getIdioma()).trim()) == 0 && ((serie.getNome()).trim().compareTo((tempSerie.getNome()).trim()) > 0 ) ){
+            
+                return true;
+            
+        }else{
+            return false;
+        }
+        
+    }
 
     public void mostrar() {
         for (int j = 0; j < this.quantidade; j++) {

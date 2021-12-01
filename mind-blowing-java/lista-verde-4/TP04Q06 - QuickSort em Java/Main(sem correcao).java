@@ -59,7 +59,7 @@ public class Main {
     }
 
     public static void escreverLog(String logString) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_quicksort.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_bolha.txt"));
         writer.write(logString);
 
         writer.close();
@@ -138,7 +138,7 @@ class Serie {
     }
 
     public void buscarDados(String fileName) {
-        String file = "/tmp/series/" + fileName;
+        String file = "../series/" + fileName;
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
@@ -309,7 +309,7 @@ class Lista {
 
     public int comparar( Serie A, Serie B){
         if(A.getPais().trim().equals(B.getPais().trim())){
-            return A.getNome().compareTo(B.getNome());
+            return A.getNome().trim().compareTo(B.getNome().trim());
         }
         return A.getPais().trim().compareTo(B.getPais().trim());
     } 
