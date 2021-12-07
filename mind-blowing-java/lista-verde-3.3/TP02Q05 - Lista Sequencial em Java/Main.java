@@ -43,6 +43,7 @@ public class Main {
         Lista listaManipulavel = new Lista();
         listaManipulavel.adicionarSeries(listaDadosSeries);
         listaManipulavel.quantidade--;
+
         for (int s = 0; s < quantidadeDeInstrucoes; s++) {
             String instrucoesEString = stdin.readLine();
             String instrucao = instrucoesEString.substring(0, 2);
@@ -183,7 +184,7 @@ class Serie {
     }
 
     public void buscarDados(String fileName) {
-        String file = "/tmp/series/" + fileName;
+        String file = "../series/" + fileName;
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
