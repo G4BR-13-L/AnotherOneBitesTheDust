@@ -31,25 +31,36 @@ public class Main {
         } while (isFim(listaNomeDeSeries[index - 1]) == false);
         index--;
 
-        Serie[] listaDadosSeries = new Serie[index + 1];
+        Serie[] listaDadosSeries = new Serie[index+1];
         for (int i = 0; i < index; i++) {
             Serie novaSerie = new Serie();
             novaSerie.buscarDados(listaNomeDeSeries[i]);
             listaDadosSeries[i] = novaSerie;
         }
-        Lista listaManipulavel = new Lista();
 
-        listaManipulavel.adicionarSeries(listaDadosSeries);
-        listaManipulavel.quantidade--;
-        listaManipulavel.quickSort( 0, listaManipulavel.quantidade - 1);
-        listaManipulavel.mostrar();
+        Lista listaDinamica = new Lista();
+        for ( int i = 0 ; i < listaDadosSeries.length - 1  ; i++ ){
+            if( listaDinamica.quantidade == 0 ){
+                Item novaSerie = new Item();
+                novaSerie.ant = null;
+                novaSerie.serie = listaDadosSeries[i];
+                listaDinamica.primeira = novaSerie;
+                listaDinamica.ultima = novaSerie;
+                listaDinamica.quantidade++;
+            } else {
+                listaDinamica.IF(listaDadosSeries[i].nomeDoArquivo);
+            }
+        } 
+
+        listaDinamica.ordenar();
+
+        listaDinamica.printar();
 
         stdin.close();
         stdout.close();
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;
-        String stringDeLog = "739704\t" + listaManipulavel.comparacoesSort + "\t" + listaManipulavel.movimentacoesSort
-                + "\t" + duration + "ms";
+        String stringDeLog = "739704\t" + duration + "ms";
         escreverLog(stringDeLog);
 
     }
@@ -59,7 +70,7 @@ public class Main {
     }
 
     public static void escreverLog(String logString) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("739704_quicksort.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt"));
         writer.write(logString);
 
         writer.close();
@@ -83,21 +94,20 @@ class Serie {
         return this.nome;
     }
 
+    public int comparar(Serie outro){
+      if(pais.equals(outro.pais))
+        return nome.compareTo(outro.nome);
+
+      return pais.compareTo(outro.pais);
+    }
+
     public void printarDadosSerie() {
         System.out.println(this.nome + " " + this.formato + " " + this.duracao + " " + this.pais + " " + this.idioma
                 + " " + this.broadcaster + " " + this.streaming + " " + this.temporadas + " " + this.episodios);
     }
 
     public String qualONomeDaSerie(String fileName) {
-        String resp = "";
-        for (int i = 0; i < fileName.length(); i++) {
-            if (fileName.charAt(i) == '_') {
-                resp += ' ';
-            } else {
-                resp += fileName.charAt(i);
-            }
-        }
-        return resp.substring(0, resp.length() - 5);
+        return fileName.replace(".html", "").replaceAll("_", " ").trim();
     }
 
     public int converterParaInteiro(String linha) {
@@ -134,7 +144,7 @@ class Serie {
         if (resposta.charAt(0) == ' ') {
             resposta = resposta.substring(1);
         }
-        return resposta;
+        return resposta.trim();
     }
 
     public void buscarDados(String fileName) {
@@ -155,11 +165,11 @@ class Serie {
 
             while (!br.readLine().contains("País de origem"))
                 ;
-            this.pais = (removerTagsHTML(br.readLine()));
+            this.pais = removerTagsHTML(br.readLine());
 
             while (!br.readLine().contains("Idioma original"))
                 ;
-            this.idioma = (removerTagsHTML(br.readLine()));
+            this.idioma = removerTagsHTML(br.readLine());
 
             while (!br.readLine().contains("Emissora de televisão"))
                 ;
@@ -254,247 +264,85 @@ class Serie {
     }
 }
 
-class Lista {
-    public Serie[] series;
-    public int quantidade;
-    public Serie[] removidas;
-    public int quantidadeRemovidas = 0;
-    public int comparacoesSort;
-    public int movimentacoesSort;
 
-    Lista(int tamanho) {
-        this.quantidade = 0;
-        this.series = new Serie[tamanho];
-        this.removidas = new Serie[tamanho * 2];
-        this.comparacoesSort = 0;
-        this.movimentacoesSort = 0;
+class Item {
+    public Item prox, ant;
+    public Serie serie;
+
+    public static int index = 0;
+
+    public int ix;
+
+    public Item(){
+      this.ix = index++;
     }
-
-    Lista() {
-        this(500);
-    }
-
-    public void adicionarSeries(Serie[] seriesIniciais) throws Exception {
-        if (this.series.length > seriesIniciais.length) {
-            for (int i = 0; i < seriesIniciais.length; i++) {
-                this.series[i] = seriesIniciais[i];
-            }
-            this.quantidade = seriesIniciais.length;
-        } else if (this.series.length == seriesIniciais.length) {
-            for (int i = 0; i < seriesIniciais.length; i++) {
-                this.series[i] = seriesIniciais[i];
-            }
-            this.quantidade = seriesIniciais.length;
-        } else if (this.series.length < seriesIniciais.length) {
-            throw new Exception("ERRO: O array de series é maior do que a lista");
-        }
-    }
-
-    public void swap(int i, int j) {
-        Serie temp = this.series[i];
-        this.series[i] = this.series[j];
-        this.series[j] = temp;
-    }
-
-    public static String blank(String s) {
-        String resp = "";
-        for (int i = 0; i < s.length(); i++) {
-            char x = s.charAt(i);
-            if (x != ' ') {
-                resp += x;
-            }
-        }
-        return resp;
-    }
-
-    public int comparar( Serie A, Serie B){
-        if(A.getPais().trim().equals(B.getPais().trim())){
-            return A.getNome().compareTo(B.getNome());
-        }
-        return A.getPais().trim().compareTo(B.getPais().trim());
-    } 
-
-
-    public void quickSort( int inicio, int fim) {
-        if(fim > inicio) {
-          int indexPivo = dividir( inicio, fim);
-          quickSort(inicio, indexPivo - 1);
-          quickSort(indexPivo + 1, fim);
-        }
-    }
-
-    
-    public int dividir( int inicio, int fim) {
-        int pontEsq, pontDir = fim+1;
-        pontEsq = inicio - 1;
-        Serie pivo = this.series[inicio];
-
-        while (true) {
-            /*while (pontEsq <= pontDir && comparar(vetor[pontEsq], pivo) <= 0 () ) {
-                pontEsq++;
-            }*/
-
-            do{
-                pontEsq++;
-            }while(comparar(this.series[ pontEsq ], pivo ) < 0);
-
-            do{
-                pontDir--;
-            }while(comparar(this.series[ pontDir ], pivo ) > 0);
-            
-            if( pontEsq >= pontDir ){
-                return pontDir;
-            }
-            swap(pontEsq, pontDir);
-            /**while( vetor[pontEsq].getPais().compareTo( pivo.getPais() ) < 0 || ( vetor[pontEsq].getPais().compareTo( pivo.getPais() ) == 0 &&  vetor[pontEsq].getNome().compareTo( pivo.getNome() ) < 0 )){
-                pontEsq++;
-            }
-
-            while( vetor[pontDir].getPais().compareTo( pivo.getPais() ) > 0 || ( vetor[pontDir].getPais().compareTo( pivo.getPais() ) == 0 &&  vetor[pontDir].getNome().compareTo( pivo.getNome() ) > 0 )){
-                pontDir++;
-            }*/
-
-           /* while (pontDir >= pontEsq && comparar(vetor[pontEsq], pivo) > 0) {
-                pontDir--;
-            }*/
-            
-        }
-    }
-
-
-    public void mostrar() {
-        for (int j = 0; j < this.quantidade; j++) {
-            this.series[j].printarDadosSerie();
-        }
-    }
-
 }
 
-// A Java program to sort a linked list using Quicksort
-class QuickSort_using_Doubly_LinkedList{
-    Node head;
-   
-/* a node of the doubly linked list */ 
-    static class Node{
-        private int data;
-        private Node next;
-        private Node prev;
-         
-        Node(int d){
-            data = d;
-            next = null;
-            prev = null;
+class Lista {
+    // LISTA DINAMICA
+    public Item primeira;
+    public Item ultima;
+    public int quantidade = 0;
+
+    public void IF(String nomeSerie) throws Exception {
+        Serie dadosNovaSerie = new Serie();
+        dadosNovaSerie.buscarDados(nomeSerie);
+        Item novaSerie = new Item();
+        novaSerie.serie = dadosNovaSerie;
+        novaSerie.ant = this.ultima;
+        this.ultima.prox = novaSerie;
+        this.ultima = novaSerie;
+        this.quantidade++;
+    }
+
+    private Item particiona(Item inicio, Item fim){
+      Item st = new Item();
+      st.prox = inicio;
+
+      Serie pivot = fim.serie;
+
+      Item atual = inicio;
+
+      while(atual != fim){
+        if(atual.serie.comparar(pivot) < 0){
+          st = st.prox;
+          Serie backup = atual.serie;
+          atual.serie = st.serie;
+          st.serie = backup;
         }
+
+        atual = atual.prox;
+      }
+
+      st = st.prox;
+      Serie backup = fim.serie;
+      fim.serie = st.serie;
+      st.serie = backup;
+
+      return st;
     }
-     
-// A utility function to find last node of linked list    
-    Node lastNode(Node node){
-        while(node.next!=null)
-            node = node.next;
-        return node;
-    }
-     
- 
-/* Considers last element as pivot, places the pivot element at its
-   correct position in sorted array, and places all smaller (smaller than
-   pivot) to left of pivot and all greater elements to right of pivot */
-    Node partition(Node l,Node h)
-    {
-       // set pivot as h element
-        int x = h.data;
-         
-        // similar to i = l-1 for array implementation
-        Node i = l.prev;
-         
-        // Similar to "for (int j = l; j <= h- 1; j++)"
-        for(Node j=l; j!=h; j=j.next)
-        {
-            if(j.data <= x)
-            {
-                // Similar to i++ for array
-                i = (i==null) ? l : i.next;
-                int temp = i.data;
-                i.data = j.data;
-                j.data = temp;
-            }
+    
+    private void quickSort(Item inicio, Item fim){
+      if(inicio != null && fim != null && inicio.ix < fim.ix){
+        Item pi = particiona(inicio, fim);
+
+        if(pi != null){
+          quickSort(inicio, pi.ant);
+          quickSort(pi.prox, fim);
         }
-        i = (i==null) ? l : i.next;  // Similar to i++
-        int temp = i.data;
-        i.data = h.data;
-        h.data = temp;
-        return i;
+      }  
     }
-     
-    /* A recursive implementation of quicksort for linked list */
-    void _quickSort(Node l,Node h)
-    {
-        if(h!=null && l!=h && l!=h.next){
-            Node temp = partition(l,h);
-            _quickSort(l,temp.prev);
-            _quickSort(temp.next,h);
+
+    public void ordenar(){
+        quickSort(primeira, ultima);
+    }
+
+    public void printar(){
+        Item atual = primeira;
+
+        while(atual != null){
+            atual.serie.printarDadosSerie();
+            atual = atual.prox;
         }
-    }
-     
-    // The main function to sort a linked list. It mainly calls _quickSort()
-    public void quickSort(Node node)
-    {
-        // Find last node
-        Node head = lastNode(node);
-         
-        // Call the recursive QuickSort
-        _quickSort(node,head);
-    }
-     
-     // A utility function to print contents of arr
-     public void printList(Node head)
-     {
-        while(head!=null){
-            System.out.print(head.data+" ");
-            head = head.next;
-        }
-    }
-     
-    /* Function to insert a node at the beginging of the Doubly Linked List */
-    void push(int new_Data)
-    {
-        Node new_Node = new Node(new_Data);     /* allocate node */
-         
-        // if head is null, head = new_Node
-        if(head==null){
-            head = new_Node;
-            return;
-        }
-         
-        /* link the old list off the new node */
-        new_Node.next = head;
-         
-        /* change prev of head node to new node */
-        head.prev = new_Node;
-         
-        /* since we are adding at the begining, prev is always NULL */
-        new_Node.prev = null;
-         
-        /* move the head to point to the new node */
-        head = new_Node;
-    }
-     
-    /* Driver program to test above function */
-    public static void main(String[] args){
-            QuickSort_using_Doubly_LinkedList list = new QuickSort_using_Doubly_LinkedList();
-             
-             
-            list.push(5);
-            list.push(20);
-            list.push(4);
-            list.push(3);
-            list.push(30);
-           
-             
-            System.out.println("Linked List before sorting ");
-            list.printList(list.head);
-            System.out.println("\nLinked List after sorting");
-            list.quickSort(list.head);
-            list.printList(list.head);
-         
     }
 }
